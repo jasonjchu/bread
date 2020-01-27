@@ -3,6 +3,7 @@
 import mysql.connector
 import csv
 import datetime as dt
+import os
 
 db_connection = mysql.connector.connect(
     host="localhost",
@@ -25,8 +26,8 @@ def create_table():
     uniq_id VARCHAR(255) PRIMARY KEY,
     country VARCHAR(1000), 
     country_code VARCHAR(10), 
-    date_added INT UNSIGNED,
-    has_expired VARCHAR(5),
+    date_added DATE,
+    has_expired BIT,
     job_board VARCHAR(1000), 
     job_description TEXT, 
     job_title VARCHAR(1000), 
@@ -41,15 +42,18 @@ def create_table():
 
 
 def populate_table():
-    with open('monster-job-data.csv', encoding='utf8') as file:
+    csv_file = os.path.join(os.path.dirname(__file__), os.pardir, 'data/monster-job-data.csv')
+    with open(csv_file, encoding='utf8') as file:
         reader = csv.reader(file)
         columns = next(reader)
         query_template = 'INSERT INTO jobs({0}) values ({1})'
         query = query_template.format(','.join(columns), ','.join(['%s'] * len(columns)))
         print(query)
         for data in reader:
-            # Convert date to num seconds since epoch. NULL if no date.
-            data[2] = None if data[2] == '' else str(int(dt.datetime.strptime(data[2], "%m/%d/%Y").timestamp()))
+            # Convert date to MYSQL date format. NULL if no date.
+            data[2] = None if data[2] == '' else dt.datetime.strptime(data[2], '%m/%d/%Y').strftime('%Y-%m-%d')
+            # Convert has_expired to boolean
+            data[3] = True if data[3] == 'Yes' else False
             print(data)
             cursor.execute(query, data)
         db_connection.commit()
