@@ -1,5 +1,7 @@
-# CS348 final assignment
-## Group members:
+# bread
+Tinder-inspired job searching application for employers and prospective employees.
+
+## Contributors:
 - Aaron Choo (@Aaronchoo)
 - Jason Chu (@jasonjchu)
 - Kallen Tu (@kallentu)
@@ -16,8 +18,6 @@ Tasks are to be completed by the set deadlines.
 - [ ] Milestone 2: Midterm report - Mar. 5, 2020
 - [ ] In-class demo: - April 2, 2020
 - [ ] Final report and code submission - April 2, 2020
-
-Details can be found in `assignment.pdf`.
 
 ## Running the API Server
 1. `dep ensure`
