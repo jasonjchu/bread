@@ -1,0 +1,45 @@
+{
+    "taskDefinition": {
+        "taskDefinitionArn": "arn:aws:ecs:us-east-2:785611385827:task-definition/bread-core:1",
+        "containerDefinitions": [
+            {
+                "name": "bread-core",
+                "image": "785611385827.dkr.ecr.us-east-2.amazonaws.com/bread",
+                "cpu": 0,
+                "memory": 128,
+                "portMappings": [
+                    {
+                        "containerPort": 443,
+                        "hostPort": 443,
+                        "protocol": "tcp"
+                    },
+                    {
+                        "containerPort": 80,
+                        "hostPort": 80,
+                        "protocol": "tcp"
+                    }
+                ],
+                "essential": true,
+                "environment": [],
+                "mountPoints": [],
+                "volumesFrom": []
+            }
+        ],
+        "family": "bread-core",
+        "revision": 1,
+        "volumes": [],
+        "status": "ACTIVE",
+        "requiresAttributes": [
+            {
+                "name": "com.amazonaws.ecs.capability.ecr-auth"
+            }
+        ],
+        "placementConstraints": [],
+        "compatibilities": [
+            "EC2"
+        ],
+        "requiresCompatibilities": [
+            "EC2"
+        ]
+    }
+}
