@@ -18,3 +18,7 @@ Tasks are to be completed by the set deadlines.
 - [ ] Final report and code submission - April 2, 2020
 
 Details can be found in `assignment.pdf`.
+
+## Running the API Server
+1. `dep ensure`
+2. `go run cmd/bread/main.go`

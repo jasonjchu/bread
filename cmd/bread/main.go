@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/jasonjchu/CS348/app/server"
+	"github.com/jasonjchu/bread/app/server"
 )
 
 func main() {
