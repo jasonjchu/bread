@@ -1,0 +1,15 @@
+Members & Contributions
+
+- Aaron Choo (@Aaronchoo)
+
+- Jason Chu (@jasonjchu)
+    - Set up basic android app
+
+- Kallen Tu (@kallentu)
+    - Wrote report.pdf.
+    - Wrote and will continuously ensure that `members.txt` is updated.
+
+- Charles Zhang (@gzcharleszhang)
+    - Set up basic backend app
+
+- Jack Zhang (@Novacer)
