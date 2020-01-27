@@ -22,3 +22,8 @@ Tasks are to be completed by the set deadlines.
 ## Running the API Server
 1. `dep ensure`
 2. `go run cmd/bread/main.go`
+
+## Running scripts
+### Requirements
+1. Python 3.6
+2. `pip install mysql-connector-python`
