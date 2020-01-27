@@ -2,6 +2,7 @@
 # using python 3.6.8
 import mysql.connector
 import csv
+import datetime as dt
 
 db_connection = mysql.connector.connect(
     host="localhost",
@@ -24,7 +25,7 @@ def create_table():
     uniq_id VARCHAR(255) PRIMARY KEY,
     country VARCHAR(1000), 
     country_code VARCHAR(10), 
-    date_added VARCHAR(100),
+    date_added INT UNSIGNED,
     has_expired VARCHAR(5),
     job_board VARCHAR(1000), 
     job_description TEXT, 
@@ -47,6 +48,8 @@ def populate_table():
         query = query_template.format(','.join(columns), ','.join(['%s'] * len(columns)))
         print(query)
         for data in reader:
+            # Convert date to num seconds since epoch. NULL if no date.
+            data[2] = None if data[2] == '' else str(int(dt.datetime.strptime(data[2], "%m/%d/%Y").timestamp()))
             print(data)
             cursor.execute(query, data)
         db_connection.commit()
