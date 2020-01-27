@@ -1,23 +1,29 @@
 # must do pip install mysql-connector-python
 # using python 3.6.8
-import mysql.connector
+from mysql.connector import connect, MySQLConnection
 import csv
 import datetime as dt
 import os
 
-db_connection = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="password",
-    # database="bread_db", <--- uncomment after DB is created
-    auth_plugin='mysql_native_password'
-)
-cursor = db_connection.cursor()
+database_name = os.environ.get('BREAD_DB_NAME', 'bread_db')
 
 
-# Execute me first
+def get_db_connection(db_exists: bool) -> MySQLConnection:
+    return connect(
+        host=os.environ.get('BREAD_DB_HOST', 'localhost'),
+        user=os.environ.get('BREAD_DB_USER', 'root'),
+        passwd=os.environ.get('BREAD_DB_PASSWD', 'password'),
+        database=database_name if db_exists else '',
+        auth_plugin='mysql_native_password'
+    )
+
+
 def create_db():
-    cursor.execute("CREATE DATABASE IF NOT EXISTS bread_db")
+    # always assume no DB exists at this step, since if not exists will leave things unchanged
+    db_cxn = get_db_connection(False)
+    db_cxn.cursor().execute(
+        "CREATE DATABASE IF NOT EXISTS {0}".format(database_name)
+    )
 
 
 def create_table():
@@ -38,7 +44,8 @@ def create_table():
     salary VARCHAR(1000), 
     sector TEXT)
     """
-    cursor.execute(query)
+    db_cxn = get_db_connection(True)
+    db_cxn.cursor().execute(query)
 
 
 def populate_table():
@@ -49,17 +56,21 @@ def populate_table():
         query_template = 'INSERT INTO jobs({0}) values ({1})'
         query = query_template.format(','.join(columns), ','.join(['%s'] * len(columns)))
         print(query)
+        # get DB connection
+        db_cxn = get_db_connection(True)
+        cursor = db_cxn.cursor()
         for data in reader:
             # Convert date to MYSQL date format. NULL if no date.
             data[2] = None if data[2] == '' else dt.datetime.strptime(data[2], '%m/%d/%Y').strftime('%Y-%m-%d')
             # Convert has_expired to boolean
             data[3] = True if data[3] == 'Yes' else False
+            # make sure to set export PYTHONIOENCODING='utf-8' in bash to support printing unicode chars.
             print(data)
             cursor.execute(query, data)
-        db_connection.commit()
+        db_cxn.commit()
 
 
 if __name__ == '__main__':
     create_db()
-    # create_table()    <--- uncomment after DB is created
-    # populate_table()  <--- uncomment after DB is created
+    create_table()
+    populate_table()

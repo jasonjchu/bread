@@ -27,3 +27,5 @@ Tasks are to be completed by the set deadlines.
 ### Requirements
 1. Python 3.6
 2. `pip install mysql-connector-python`
+3. Script sometimes prints unicode characters to terminal for debugging. Ensure this works for you by setting `export PYTHONIOENCODING='utf-8'
+` before running the script.
