@@ -1,18 +1,21 @@
-# must do pip install mysql-connector-python
+# must do pip install mysql-connector-python python-dotenv
 # using python 3.6.8
 from mysql.connector import connect, MySQLConnection
 import csv
 import datetime as dt
 import os
+from dotenv import load_dotenv, find_dotenv
 
-database_name = os.environ.get('BREAD_DB_NAME', 'bread_db')
+
+load_dotenv(find_dotenv())
+database_name = os.getenv('BREAD_DB_NAME', 'bread_db')
 
 
 def get_db_connection(db_exists: bool) -> MySQLConnection:
     return connect(
-        host=os.environ.get('BREAD_DB_HOST', 'localhost'),
-        user=os.environ.get('BREAD_DB_USER', 'root'),
-        passwd=os.environ.get('BREAD_DB_PASSWD', 'password'),
+        host=os.getenv('BREAD_DB_HOST', 'localhost'),
+        user=os.getenv('BREAD_DB_USER', 'root'),
+        passwd=os.getenv('BREAD_DB_PASSWD', 'password'),
         database=database_name if db_exists else '',
         auth_plugin='mysql_native_password'
     )
