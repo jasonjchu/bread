@@ -1,6 +1,6 @@
 {
     "taskDefinition": {
-        "taskDefinitionArn": "arn:aws:ecs:us-east-2:785611385827:task-definition/bread-core:1",
+        "taskDefinitionArn": "arn:aws:ecs:us-east-2:785611385827:task-definition/bread-core:4",
         "containerDefinitions": [
             {
                 "name": "bread-core",
@@ -14,24 +14,50 @@
                         "protocol": "tcp"
                     },
                     {
-                        "containerPort": 80,
+                        "containerPort": 8080,
                         "hostPort": 80,
                         "protocol": "tcp"
                     }
                 ],
                 "essential": true,
-                "environment": [],
+                "environment": [
+                    {
+                        "name": "BREAD_DB_NAME",
+                        "value": "dev_db_1"
+                    },
+                    {
+                        "name": "BREAD_DB_USER",
+                        "value": "admin"
+                    },
+                    {
+                        "name": "BREAD_DB_HOST",
+                        "value": "dev-db-1.cinaokd52ntr.us-east-2.rds.amazonaws.com"
+                    }
+                ],
                 "mountPoints": [],
-                "volumesFrom": []
+                "volumesFrom": [],
+                "secrets": [
+                    {
+                        "name": "BREAD_DB_PASSWD",
+                        "valueFrom": "arn:aws:secretsmanager:us-east-2:785611385827:secret:bread/dev/db-Kiu57g"
+                    }
+                ]
             }
         ],
         "family": "bread-core",
-        "revision": 1,
+        "executionRoleArn": "arn:aws:iam::785611385827:role/bread-secret-fill",
+        "revision": 4,
         "volumes": [],
         "status": "ACTIVE",
         "requiresAttributes": [
             {
                 "name": "com.amazonaws.ecs.capability.ecr-auth"
+            },
+            {
+                "name": "ecs.capability.secrets.asm.environment-variables"
+            },
+            {
+                "name": "ecs.capability.execution-role-ecr-pull"
             }
         ],
         "placementConstraints": [],
