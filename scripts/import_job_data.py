@@ -62,13 +62,15 @@ def populate_table():
         # get DB connection
         db_cxn = get_db_connection(True)
         cursor = db_cxn.cursor()
+        count = 0
         for data in reader:
             # Convert date to MYSQL date format. NULL if no date.
             data[2] = None if data[2] == '' else dt.datetime.strptime(data[2], '%m/%d/%Y').strftime('%Y-%m-%d')
             # Convert has_expired to boolean
             data[3] = True if data[3] == 'Yes' else False
-            # make sure to set export PYTHONIOENCODING='utf-8' in bash to support printing unicode chars.
-            print(data)
+            count = count + 1
+            if count % 100 == 0:
+                print('Inserted {} rows'.format(count))
             cursor.execute(query, data)
         db_cxn.commit()
 
