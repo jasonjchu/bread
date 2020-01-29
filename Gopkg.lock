@@ -12,12 +12,30 @@
   revision = "2db61557f36b2f4caa20ce6ef50e98bac0f7fce5"
   version = "v4.0.3"
 
+[[projects]]
+  digest = "1:a3af33fd30536d9c5a7b6ad542390919e57c1125097a194c7b3d9904109a0611"
+  name = "github.com/go-sql-driver/mysql"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "17ef3dd9d98b69acec3e85878995ada9533a9370"
+  version = "v1.5.0"
+
+[[projects]]
+  digest = "1:ecd9aa82687cf31d1585d4ac61d0ba180e42e8a6182b85bd785fcca8dfeefc1b"
+  name = "github.com/joho/godotenv"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "23d116af351c84513e1946b527c88823e476be13"
+  version = "v1.3.0"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
     "github.com/go-chi/chi",
     "github.com/go-chi/chi/middleware",
+    "github.com/go-sql-driver/mysql",
+    "github.com/joho/godotenv",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
