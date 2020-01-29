@@ -1,4 +1,4 @@
-package models
+package job
 
 import (
 	"database/sql"
@@ -9,8 +9,6 @@ import (
 type Id string
 type Country string
 type CountryCode string
-type DateAdded *sql.NullTime // Time is optional, must check if [DateAdded.Valid] before using
-type HasExpired int64        // Boolean type, value 0 for false, 1 for true.
 type Board string
 type Description string
 type Title string
@@ -26,8 +24,8 @@ type Job struct {
 	Id           Id           `db:"_id"`
 	Country      Country      `db:"country"`
 	CountryCode  CountryCode  `db:"country_code"`
-	DateAdded    DateAdded    `db:"date_added"`
-	HasExpired   HasExpired   `db:"has_expired"`
+	DateAdded    sql.NullTime `db:"date_added"` // Time is optional, must check if [DateAdded.Valid] before using
+	HasExpired   bool         `db:"has_expired"`
 	Board        Board        `db:"job_board"`
 	Description  Description  `db:"job_description"`
 	Title        Title        `db:"job_title"`

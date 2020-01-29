@@ -17,6 +17,10 @@ func OpenConnection() error {
 	dsn.Addr = os.Getenv(env.DBHostKey)
 	dsn.DBName = os.Getenv(env.DBNameKey)
 
+	// Make sure we can parse DATE into time.Time
+	dsn.Params = make(map[string]string)
+	dsn.Params["parseTime"] = "true"
+
 	pool, err := sqlx.Connect("mysql", dsn.FormatDSN())
 	if err != nil {
 		return err
