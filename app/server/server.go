@@ -32,7 +32,6 @@ func StartServer(port int) {
 		errLogger.Printf("Error: Failed to establish database connection %v", err)
 		log.Printf("Error: Failed to establish database connection %v", err)
 	}
-
 	defer db.CloseConnection()
 
 	r := SetupRouter()
