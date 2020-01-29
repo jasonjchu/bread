@@ -85,6 +85,8 @@ func scanJobFromRow(row *sql.Row) (*Job, error) {
 	return &job, err
 }
 
+// Similar logic to [scanJobFromRow], but using different struct [sql.Rows].
+// Unfortunately, code duplication is necessary even though behaviour is similar.
 func scanJobFromRows(rows *sql.Rows) ([]*Job, error) {
 	var jobs []*Job
 	var err error

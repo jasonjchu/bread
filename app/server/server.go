@@ -18,9 +18,9 @@ func StartServer(port int) {
 		log.Panicf("Error: failed to create error logger %v", err)
 	}
 
-	// Set up environment variables for database connection.
 	err = env.LoadEnv()
 	if err != nil {
+		// Log error and print to stderr.
 		errLogger.Printf("Error: Failed to load environment variables %v", err)
 		log.Printf("Error: Failed to load environment variables %v", err)
 	}
@@ -36,9 +36,8 @@ func StartServer(port int) {
 	r := SetupRouter()
 	fmt.Printf("Listening on port %v\n", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%v", port), r); err != nil {
-		// log error
+		// Log error and print to stderr.
 		errLogger.Printf("%v", err)
-		// print to stderr
 		log.Printf("%v", err)
 	}
 }
