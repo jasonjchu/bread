@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/jasonjchu/bread/app/db"
+	"github.com/jasonjchu/bread/app/env"
 	"log"
 	"net/http"
 	"os"
@@ -15,12 +17,27 @@ func StartServer(port int) {
 	if err != nil {
 		log.Panicf("Error: failed to create error logger %v", err)
 	}
+
+	err = env.LoadEnv()
+	if err != nil {
+		// Log error and print to stderr.
+		errLogger.Printf("Error: Failed to load environment variables %v", err)
+		log.Printf("Error: Failed to load environment variables %v", err)
+	}
+
+	err = db.OpenConnection()
+	if err != nil {
+		// Log error and print to stderr.
+		errLogger.Printf("Error: Failed to establish database connection %v", err)
+		log.Printf("Error: Failed to establish database connection %v", err)
+	}
+	defer db.CloseConnection()
+
 	r := SetupRouter()
 	fmt.Printf("Listening on port %v\n", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%v", port), r); err != nil {
-		// log error
+		// Log error and print to stderr.
 		errLogger.Printf("%v", err)
-		// print to stderr
 		log.Printf("%v", err)
 	}
 }
