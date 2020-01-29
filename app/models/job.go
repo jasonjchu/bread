@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"encoding/json"
 	"github.com/jasonjchu/bread/app/db"
 	"github.com/jmoiron/sqlx"
 )
@@ -20,6 +21,8 @@ type Organization string
 type URL string
 type Salary string
 type Sector string
+
+type Jobs []*Job
 
 // TODO(kallentu): Make component (usable) struct for Job.
 type Job struct {
@@ -74,8 +77,8 @@ func scanJobFromRow(row *sqlx.Row) (*Job, error) {
 }
 
 // Similar logic to [scanJobFromRow], but using different struct [sql.Rows].
-func scanJobFromRows(rows *sqlx.Rows) ([]*Job, error) {
-	var jobs []*Job
+func scanJobFromRows(rows *sqlx.Rows) (Jobs, error) {
+	var jobs Jobs
 	var err error
 	for rows.Next() {
 		job := Job{}
@@ -86,4 +89,24 @@ func scanJobFromRows(rows *sqlx.Rows) ([]*Job, error) {
 		jobs = append(jobs, &job)
 	}
 	return jobs, err
+}
+
+// Convert the jobs structure into an array of job strings
+func StringifyJobs(jobs Jobs) (string, error) {
+	// contains all jobs
+	jobList := "["
+	for index, job := range jobs {
+		jsonJob, err := json.Marshal(job)
+		if err != nil {
+			return "", err
+		}
+		// append the job into the jobList
+		if index != 0 {
+			jobList+= ","
+		}
+		jobList += string(jsonJob)
+	}
+	// close the array string
+	jobList += "]"
+	return jobList, nil
 }

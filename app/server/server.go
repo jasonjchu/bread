@@ -6,6 +6,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/jasonjchu/bread/app/db"
 	"github.com/jasonjchu/bread/app/env"
+	"github.com/jasonjchu/bread/app/routes"
 	"log"
 	"net/http"
 	"os"
@@ -31,6 +32,7 @@ func StartServer(port int) {
 		errLogger.Printf("Error: Failed to establish database connection %v", err)
 		log.Printf("Error: Failed to establish database connection %v", err)
 	}
+
 	defer db.CloseConnection()
 
 	r := SetupRouter()
@@ -51,6 +53,7 @@ func SetupRouter() *chi.Mux {
 	// timeout in one minute
 	r.Use(middleware.Timeout(60 * time.Second))
 	// TODO: initialize routes here
+	routes.InitRoutes(r)
 	return r
 }
 
