@@ -29,10 +29,17 @@ def create_db():
     )
 
 
+def drop_db():
+    db_cxn = get_db_connection(True)
+    db_cxn.cursor().execute(
+        "DROP DATABASE IF EXISTS {0}".format(database_name)
+    )
+
+
 def create_table():
     query = """
     CREATE TABLE IF NOT EXISTS jobs (
-    uniq_id VARCHAR(255) PRIMARY KEY,
+    _id VARCHAR(255) PRIMARY KEY,
     country VARCHAR(1000), 
     country_code VARCHAR(10), 
     date_added DATE,
@@ -50,10 +57,11 @@ def create_table():
     db_cxn = get_db_connection(True)
     db_cxn.cursor().execute(query)
 
+
 def drop_table():
-    query = "DROP TABLE jobs"
     db_cxn = get_db_connection(True)
-    db_cxn.cursor().execute(query)
+    db_cxn.cursor().execute("DROP TABLE IF EXISTS jobs")
+
 
 def populate_table():
     csv_file = os.path.join(os.path.dirname(__file__), os.pardir, 'data/monster-job-data.csv')

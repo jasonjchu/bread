@@ -22,7 +22,7 @@ type Salary string
 type Sector string
 
 type Job struct {
-	Id           Id           `json:"uniq_id"`
+	Id           Id           `json:"_id"`
 	Country      Country      `json:"country"`
 	CountryCode  CountryCode  `json:"country_code"`
 	DateAdded    DateAdded    `json:"date_added"`
@@ -40,7 +40,7 @@ type Job struct {
 
 func GetJobById(id Id) (*Job, error) {
 	pool := db.Pool
-	row := pool.QueryRow("SELECT * FROM jobs WHERE uniq_id=?", id)
+	row := pool.QueryRow("SELECT * FROM jobs WHERE _id=?", id)
 
 	job, err := scanJobFromRow(row)
 	if err != nil {
