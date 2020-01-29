@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/jasonjchu/bread/app/db"
 	"log"
 	"net/http"
 	"os"
@@ -15,6 +16,15 @@ func StartServer(port int) {
 	if err != nil {
 		log.Panicf("Error: failed to create error logger %v", err)
 	}
+
+	err = db.OpenConnection()
+	if err != nil {
+		// Log error and print to stderr.
+		errLogger.Printf("Error: Failed to establish database connection %v", err)
+		log.Printf("Error: Failed to establish database connection %v", err)
+	}
+	db.CloseConnection()
+
 	r := SetupRouter()
 	fmt.Printf("Listening on port %v\n", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%v", port), r); err != nil {
