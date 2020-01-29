@@ -36,7 +36,7 @@ def create_table():
     country VARCHAR(1000), 
     country_code VARCHAR(10), 
     date_added DATE,
-    has_expired BIT,
+    has_expired BOOLEAN,
     job_board VARCHAR(1000), 
     job_description TEXT, 
     job_title VARCHAR(1000), 
@@ -50,6 +50,10 @@ def create_table():
     db_cxn = get_db_connection(True)
     db_cxn.cursor().execute(query)
 
+def drop_table():
+    query = "DROP TABLE jobs"
+    db_cxn = get_db_connection(True)
+    db_cxn.cursor().execute(query)
 
 def populate_table():
     csv_file = os.path.join(os.path.dirname(__file__), os.pardir, 'data/monster-job-data.csv')
