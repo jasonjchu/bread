@@ -1,14 +1,13 @@
 package db
 
 import (
-	"database/sql"
 	"github.com/go-sql-driver/mysql"
 	"github.com/jasonjchu/bread/app/env"
-	"log"
+	"github.com/jmoiron/sqlx"
 	"os"
 )
 
-var Pool *sql.DB
+var Pool *sqlx.DB
 
 func OpenConnection() error {
 	dsn := mysql.NewConfig()
@@ -18,11 +17,11 @@ func OpenConnection() error {
 	dsn.Addr = os.Getenv(env.DBHostKey)
 	dsn.DBName = os.Getenv(env.DBNameKey)
 
-	db, err := sql.Open("mysql", dsn.FormatDSN())
+	pool, err := sqlx.Connect("mysql", dsn.FormatDSN())
 	if err != nil {
-		log.Panicf("Error: Failed to establish database connection %v", err)
+		return err
 	}
-	Pool = db
+	Pool = pool
 	return nil
 }
 

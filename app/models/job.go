@@ -3,14 +3,14 @@ package models
 import (
 	"database/sql"
 	"github.com/jasonjchu/bread/app/db"
-	"time"
+	"github.com/jmoiron/sqlx"
 )
 
 type Id string
 type Country string
 type CountryCode string
-type DateAdded time.Time
-type HasExpired bool
+type DateAdded *sql.NullTime // Time is optional, must check if [DateAdded.Valid] before using
+type HasExpired int64        // Boolean type, value 0 for false, 1 for true.
 type Board string
 type Description string
 type Title string
@@ -21,26 +21,27 @@ type URL string
 type Salary string
 type Sector string
 
+// TODO(kallentu): Make component (usable) struct for Job.
 type Job struct {
-	Id           Id           `json:"_id"`
-	Country      Country      `json:"country"`
-	CountryCode  CountryCode  `json:"country_code"`
-	DateAdded    DateAdded    `json:"date_added"`
-	HasExpired   HasExpired   `json:"has_expired"`
-	Board        Board        `json:"job_board"`
-	Description  Description  `json:"job_description"`
-	Title        Title        `json:"job_title"`
-	Type         Type         `json:"job_type"`
-	Location     Location     `json:"location"`
-	Organization Organization `json:"organization"`
-	URL          URL          `json:"page_url"`
-	Salary       Salary       `json:"salary"`
-	Sector       Sector       `json:"sector"`
+	Id           Id           `db:"_id"`
+	Country      Country      `db:"country"`
+	CountryCode  CountryCode  `db:"country_code"`
+	DateAdded    DateAdded    `db:"date_added"`
+	HasExpired   HasExpired   `db:"has_expired"`
+	Board        Board        `db:"job_board"`
+	Description  Description  `db:"job_description"`
+	Title        Title        `db:"job_title"`
+	Type         Type         `db:"job_type"`
+	Location     Location     `db:"location"`
+	Organization Organization `db:"organization"`
+	URL          URL          `db:"page_url"`
+	Salary       Salary       `db:"salary"`
+	Sector       Sector       `db:"sector"`
 }
 
 func GetJobById(id Id) (*Job, error) {
 	pool := db.Pool
-	row := pool.QueryRow("SELECT * FROM jobs WHERE _id=?", id)
+	row := pool.QueryRowx("SELECT * FROM jobs WHERE _id=?", id)
 
 	job, err := scanJobFromRow(row)
 	if err != nil {
@@ -51,7 +52,10 @@ func GetJobById(id Id) (*Job, error) {
 
 func GetJobs(numberOfJobs int) ([]*Job, error) {
 	pool := db.Pool
-	rows, err := pool.Query("SELECT * FROM jobs LIMIT ?", numberOfJobs)
+	rows, err := pool.Queryx("SELECT * FROM jobs LIMIT ?", numberOfJobs)
+	if err != nil {
+		return nil, err
+	}
 
 	jobs, err := scanJobFromRows(rows)
 	if err != nil {
@@ -60,76 +64,26 @@ func GetJobs(numberOfJobs int) ([]*Job, error) {
 	return jobs, nil
 }
 
-func scanJobFromRow(row *sql.Row) (*Job, error) {
-	var job Job
-	var dateAdded sql.NullTime
-	var hasExpired int64
-	err := row.Scan(&job.Id,
-		&job.Country,
-		&job.CountryCode,
-		&dateAdded,
-		&hasExpired,
-		&job.Board,
-		&job.Description,
-		&job.Title,
-		&job.Type,
-		&job.Location,
-		&job.Organization,
-		&job.URL,
-		&job.Salary,
-		&job.Sector)
+func scanJobFromRow(row *sqlx.Row) (*Job, error) {
+	job := Job{}
+	err := row.StructScan(&job)
 	if err != nil {
 		return nil, err
 	}
-	fillExtraFields(&job, dateAdded, hasExpired)
 	return &job, err
 }
 
 // Similar logic to [scanJobFromRow], but using different struct [sql.Rows].
-// Unfortunately, code duplication is necessary even though behaviour is similar.
-func scanJobFromRows(rows *sql.Rows) ([]*Job, error) {
+func scanJobFromRows(rows *sqlx.Rows) ([]*Job, error) {
 	var jobs []*Job
 	var err error
 	for rows.Next() {
-		var job Job
-		var dateAdded sql.NullTime
-		var hasExpired int64
-		err = rows.Scan(&job.Id,
-			&job.Country,
-			&job.CountryCode,
-			&dateAdded,
-			&hasExpired,
-			&job.Board,
-			&job.Description,
-			&job.Title,
-			&job.Type,
-			&job.Location,
-			&job.Organization,
-			&job.URL,
-			&job.Salary,
-			&job.Sector)
+		job := Job{}
+		err = rows.StructScan(&job)
 		if err != nil {
 			return nil, err
 		}
-		fillExtraFields(&job, dateAdded, hasExpired)
 		jobs = append(jobs, &job)
 	}
-
 	return jobs, err
-}
-
-// Jobs need additional processing for certain fields when converting from MySQL data types.
-func fillExtraFields(job *Job, dateAdded sql.NullTime, hasExpired int64) {
-	// [date_added] is an optional field.
-	// If we find a non-null time, populate field in Job.
-	if dateAdded.Valid {
-		job.DateAdded = DateAdded(dateAdded.Time)
-	}
-
-	// [has_expired] will be an int64 value when scanned from the database; we need to do a quick conversion.
-	if hasExpired == 0 {
-		job.HasExpired = false
-	} else {
-		job.HasExpired = true
-	}
 }
