@@ -13,7 +13,7 @@ The purpose of this project is to demonstrate a thorough understanding of the co
 
 Tasks are to be completed by the set deadlines.
 
-- [ ] Milestone 0: Project Preparation - Jan. 30, 2020
+- [X] Milestone 0: Project Preparation - Jan. 30, 2020
 - [ ] Milestone 1: Project Proposal - Feb. 6, 2020
 - [ ] Milestone 2: Midterm report - Mar. 5, 2020
 - [ ] In-class demo: - April 2, 2020
@@ -29,3 +29,6 @@ Tasks are to be completed by the set deadlines.
 2. `pip install mysql-connector-python python-dotenv`
 3. Script sometimes prints unicode characters to terminal for debugging. Ensure this works for you by setting `export PYTHONIOENCODING='utf-8'
 ` before running the script.
+
+Run `scripts/import_job_data.py` to create the MySQL database, add and populate the tables with 
+data from `data/monster-job-data.csv`.

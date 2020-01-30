@@ -1,15 +1,25 @@
 Members & Contributions
 
 - Aaron Choo (@Aaronchoo)
+    - Built endpoint to expose Job data to Android.
+    - Wrote job handler to run queries, parsed interface object to JSON.
 
 - Jason Chu (@jasonjchu)
     - Set up basic android app
+    - Deployed MySQL database and environment variables.
+    - Created deployment pipeline
 
 - Kallen Tu (@kallentu)
     - Wrote report.pdf.
     - Wrote and will continuously ensure that `members.txt` is updated.
+    - Integrated MySQL driver, wrote the Job model and created basic queries to fetch jobs from database.
 
 - Charles Zhang (@gzcharleszhang)
     - Set up basic backend app
+    - Updated README with instructions for running server.
 
 - Jack Zhang (@Novacer)
+    - Create import_job_data script to populate test data and database tables.
+    - Updated README with instructions for requirements for running scripts.
+    - Parsed .csv data to store in database and ran script to populate test data.
+
