@@ -6,6 +6,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/jasonjchu/bread/app/db"
 	"github.com/jasonjchu/bread/app/env"
+	"github.com/jasonjchu/bread/app/routes"
 	"log"
 	"net/http"
 	"os"
@@ -50,7 +51,7 @@ func SetupRouter() *chi.Mux {
 	r.Use(middleware.Recoverer)
 	// timeout in one minute
 	r.Use(middleware.Timeout(60 * time.Second))
-	// TODO: initialize routes here
+	routes.InitRoutes(r)
 	return r
 }
 
