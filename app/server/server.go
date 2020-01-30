@@ -51,7 +51,6 @@ func SetupRouter() *chi.Mux {
 	r.Use(middleware.Recoverer)
 	// timeout in one minute
 	r.Use(middleware.Timeout(60 * time.Second))
-	// TODO: initialize routes here
 	routes.InitRoutes(r)
 	return r
 }
