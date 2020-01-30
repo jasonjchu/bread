@@ -1,71 +1,53 @@
 {
-    "taskDefinition": {
-        "taskDefinitionArn": "arn:aws:ecs:us-east-2:785611385827:task-definition/bread-core:4",
-        "containerDefinitions": [
-            {
-                "name": "bread-core",
-                "image": "785611385827.dkr.ecr.us-east-2.amazonaws.com/bread",
-                "cpu": 0,
-                "memory": 128,
-                "portMappings": [
-                    {
-                        "containerPort": 443,
-                        "hostPort": 443,
-                        "protocol": "tcp"
-                    },
-                    {
-                        "containerPort": 8080,
-                        "hostPort": 80,
-                        "protocol": "tcp"
-                    }
-                ],
-                "essential": true,
-                "environment": [
-                    {
-                        "name": "BREAD_DB_NAME",
-                        "value": "dev_db_1"
-                    },
-                    {
-                        "name": "BREAD_DB_USER",
-                        "value": "admin"
-                    },
-                    {
-                        "name": "BREAD_DB_HOST",
-                        "value": "dev-db-1.cinaokd52ntr.us-east-2.rds.amazonaws.com"
-                    }
-                ],
-                "mountPoints": [],
-                "volumesFrom": [],
-                "secrets": [
-                    {
-                        "name": "BREAD_DB_PASSWD",
-                        "valueFrom": "arn:aws:secretsmanager:us-east-2:785611385827:secret:bread/dev/db-Kiu57g"
-                    }
-                ]
-            }
-        ],
-        "family": "bread-core",
-        "executionRoleArn": "arn:aws:iam::785611385827:role/bread-secret-fill",
-        "revision": 4,
-        "volumes": [],
-        "status": "ACTIVE",
-        "requiresAttributes": [
-            {
-                "name": "com.amazonaws.ecs.capability.ecr-auth"
-            },
-            {
-                "name": "ecs.capability.secrets.asm.environment-variables"
-            },
-            {
-                "name": "ecs.capability.execution-role-ecr-pull"
-            }
-        ],
-        "placementConstraints": [],
-        "compatibilities": [
-            "EC2"
-        ],
-        "requiresCompatibilities": [
-            "EC2"
-        ]
+    "containerDefinitions": [
+    {
+      "name": "bread",
+      "image": "785611385827.dkr.ecr.us-east-2.amazonaws.com/bread:18caa59beaeae43ca04b1eb2a25cf14d8c45050b",
+      "cpu": 128,
+      "memory": 128,
+      "portMappings": [
+      {
+        "containerPort": 443,
+        "hostPort": 443,
+        "protocol": "tcp"
+      },
+      {
+        "containerPort": 8080,
+        "hostPort": 80,
+        "protocol": "tcp"
+      }
+      ],
+      "essential": true,
+      "environment": [
+      {
+        "name": "BREAD_DB_NAME",
+        "value": "dev_db_1"
+      },
+      {
+        "name": "BREAD_DB_USER",
+        "value": "admin"
+      },
+      {
+        "name": "BREAD_DB_HOST",
+        "value": "dev-db-1.cinaokd52ntr.us-east-2.rds.amazonaws.com"
+      }
+      ],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "secrets": [
+      {
+        "name": "BREAD_DB_PASSWD",
+        "valueFrom": "arn:aws:secretsmanager:us-east-2:785611385827:secret:bread/dev/db1-v5MHNN"
+      }
+      ]
     }
+  ],
+  "family": "bread-core",
+  "taskRoleArn": "arn:aws:iam::785611385827:role/bread-task-role",
+  "executionRoleArn": "arn:aws:iam::785611385827:role/bread-task-role",
+  "volumes": [],
+  "placementConstraints": [],
+  "requiresCompatibilities": [
+    "EC2"
+  ]
 }
