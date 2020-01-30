@@ -58,9 +58,8 @@ def create_table():
     db_cxn.cursor().execute(query)
 
 def drop_table():
-    query = "DROP TABLE jobs"
     db_cxn = get_db_connection(True)
-    db_cxn.cursor().execute(query)
+    db_cxn.cursor().execute("DROP TABLE IF EXISTS jobs")
 
 
 def populate_table():
