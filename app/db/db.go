@@ -1,6 +1,7 @@
 package db
 
 import (
+	"encoding/json"
 	"github.com/go-sql-driver/mysql"
 	"github.com/jasonjchu/bread/app/env"
 	"github.com/jmoiron/sqlx"
@@ -16,6 +17,14 @@ func OpenConnection() error {
 	dsn.Net = os.Getenv(env.DBNetKey) // Connection type, required for [dsn.Addr]
 	dsn.Addr = os.Getenv(env.DBHostKey)
 	dsn.DBName = os.Getenv(env.DBNameKey)
+
+	// Preprocess AWS creds from secret if they exist
+	_, credsExist := os.LookupEnv(env.DBCreds)
+	if credsExist {
+		dbCreds := make(map[string]string)
+		json.Unmarshal([]byte(os.Getenv(env.DBCreds)), &dbCreds)
+		dsn.Passwd = dbCreds["password"]
+	}
 
 	// Make sure we can parse DATE into time.Time
 	dsn.Params = make(map[string]string)
