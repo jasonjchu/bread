@@ -2,7 +2,6 @@ package job
 
 import (
 	"database/sql"
-	"encoding/json"
 	"github.com/jasonjchu/bread/app/db"
 	"github.com/jmoiron/sqlx"
 )
@@ -51,14 +50,14 @@ func GetJobById(id Id) (*Job, error) {
 	return job, nil
 }
 
-func GetJobs(numberOfJobs int) ([]*Job, error) {
+func GetJobs(numberOfJobs int) (Jobs, error) {
 	pool := db.Pool
 	rows, err := pool.Queryx("SELECT * FROM jobs LIMIT ?", numberOfJobs)
 	if err != nil {
 		return nil, err
 	}
 
-	jobs, err := scanJobFromRows(rows)
+	jobs, err := scanJobsFromRows(rows)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +74,7 @@ func scanJobFromRow(row *sqlx.Row) (*Job, error) {
 }
 
 // Similar logic to [scanJobFromRow], but using different struct [sql.Rows].
-func scanJobFromRows(rows *sqlx.Rows) (Jobs, error) {
+func scanJobsFromRows(rows *sqlx.Rows) (Jobs, error) {
 	var jobs Jobs
 	var err error
 	for rows.Next() {
@@ -89,22 +88,3 @@ func scanJobFromRows(rows *sqlx.Rows) (Jobs, error) {
 	return jobs, err
 }
 
-// Convert the jobs structure into an array of job strings
-func StringifyJobs(jobs Jobs) (string, error) {
-	// contains all jobs
-	jobList := "["
-	for index, job := range jobs {
-		jsonJob, err := json.Marshal(job)
-		if err != nil {
-			return "", err
-		}
-		// append the job into the jobList
-		if index != 0 {
-			jobList+= ","
-		}
-		jobList += string(jsonJob)
-	}
-	// close the array string
-	jobList += "]"
-	return jobList, nil
-}

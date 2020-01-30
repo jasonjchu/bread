@@ -62,10 +62,6 @@ def drop_table():
     db_cxn = get_db_connection(True)
     db_cxn.cursor().execute(query)
 
-def drop_table():
-    db_cxn = get_db_connection(True)
-    db_cxn.cursor().execute("DROP TABLE IF EXISTS jobs")
-
 
 def populate_table():
     csv_file = os.path.join(os.path.dirname(__file__), os.pardir, 'data/monster-job-data.csv')
