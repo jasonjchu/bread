@@ -57,6 +57,7 @@ def create_table():
     db_cxn = get_db_connection(True)
     db_cxn.cursor().execute(query)
 
+
 def drop_table():
     db_cxn = get_db_connection(True)
     db_cxn.cursor().execute("DROP TABLE IF EXISTS jobs")
