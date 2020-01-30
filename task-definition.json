@@ -30,14 +30,22 @@
       {
         "name": "BREAD_DB_HOST",
         "value": "dev-db-1.cinaokd52ntr.us-east-2.rds.amazonaws.com"
+      },
+      {
+        "name": "BREAD_DB_NET",
+        "value": "tcp"
       }
       ],
       "mountPoints": [],
       "volumesFrom": [],
       "secrets": [
       {
+        "name": "BREAD_DB_CREDS",
+        "valueFrom": "arn:aws:secretsmanager:us-east-2:785611385827:secret:bread/dev/db2-H26PVf"
+      },
+      {
         "name": "BREAD_DB_PASSWD",
-        "valueFrom": "arn:aws:secretsmanager:us-east-2:785611385827:secret:bread/dev/db1-v5MHNN"
+        "valueFrom": "arn:aws:secretsmanager:us-east-2:785611385827:secret:bread/dev/db2-H26PVf"
       }
       ]
     }
