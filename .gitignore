@@ -22,3 +22,5 @@ vendor/
 
 .idea/
 *.iml
+.DS_Store
+scripts/__pycache__/
