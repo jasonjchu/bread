@@ -1,10 +1,11 @@
 # must do pip install mysql-connector-python python-dotenv
 # using python 3.6.8
 from mysql.connector import connect, MySQLConnection
-import csv
 import datetime as dt
 import os
 from dotenv import load_dotenv, find_dotenv
+from db import populate_table
+import random
 
 
 load_dotenv(find_dotenv())
@@ -40,6 +41,7 @@ def create_table():
     query = """
     CREATE TABLE IF NOT EXISTS jobs (
     _id VARCHAR(255) PRIMARY KEY,
+    posted_by INT,
     country VARCHAR(1000), 
     country_code VARCHAR(10), 
     date_added DATE,
@@ -52,7 +54,9 @@ def create_table():
     organization VARCHAR(1000), 
     page_url VARCHAR(2000), 
     salary VARCHAR(1000), 
-    sector TEXT)
+    sector TEXT,
+    FOREIGN KEY (posted_by) REFERENCES companies (_id) ON DELETE CASCADE
+    )
     """
     db_cxn = get_db_connection(True)
     db_cxn.cursor().execute(query)
@@ -63,31 +67,32 @@ def drop_table():
     db_cxn.cursor().execute("DROP TABLE IF EXISTS jobs")
 
 
-def populate_table():
-    csv_file = os.path.join(os.path.dirname(__file__), os.pardir, 'data/monster-job-data.csv')
-    with open(csv_file, encoding='utf8') as file:
-        reader = csv.reader(file)
-        columns = next(reader)
-        query_template = 'INSERT INTO jobs({0}) values ({1})'
-        query = query_template.format(','.join(columns), ','.join(['%s'] * len(columns)))
-        print(query)
-        # get DB connection
-        db_cxn = get_db_connection(True)
-        cursor = db_cxn.cursor()
-        count = 0
-        for data in reader:
-            # Convert date to MYSQL date format. NULL if no date.
-            data[2] = None if data[2] == '' else dt.datetime.strptime(data[2], '%m/%d/%Y').strftime('%Y-%m-%d')
-            # Convert has_expired to boolean
-            data[3] = True if data[3] == 'Yes' else False
-            count = count + 1
-            if count % 100 == 0:
-                print('Inserted {} rows'.format(count))
-            cursor.execute(query, data)
-        db_cxn.commit()
+def get_companies_count():
+    db_cxn = get_db_connection(True)
+    cur = db_cxn.cursor()
+    cur.execute("SELECT COUNT(*) FROM companies")
+    res = cur.fetchall()
+    return res[0][0]
+
+
+def populate_jobs_data():
+    drop_table()
+    create_table()
+
+    data_src = 'data/jobs-test.csv' if os.getenv("BREAD_ENV") == "testing" else 'data/jobs.csv'
+    companies_count = get_companies_count()
+
+    # massaging job data before saving into DB
+    def transform_job(job):
+        # Convert date to MYSQL date format. NULL if no date.
+        job[2] = None if job[2] == '' else dt.datetime.strptime(job[2], '%m/%d/%Y').strftime('%Y-%m-%d')
+        # Convert has_expired to boolean
+        job[3] = True if job[3] == 'Yes' else False
+        # Randomly assign job to a company that exists in the DB
+        job[-1] = random.randint(1,companies_count) if companies_count > 0 else 0
+
+    populate_table('jobs', data_src, transform_job)
 
 
 if __name__ == '__main__':
-    create_db()
-    create_table()
-    populate_table()
+    populate_jobs_data()
