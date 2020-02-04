@@ -9,7 +9,7 @@ def create_table():
     query = """
     CREATE TABLE IF NOT EXISTS jobs (
     _id VARCHAR(255) PRIMARY KEY,
-    posted_by INT,
+    company_id INT,
     country VARCHAR(1000), 
     country_code VARCHAR(10), 
     date_added DATE,
@@ -23,7 +23,7 @@ def create_table():
     page_url VARCHAR(2000), 
     salary VARCHAR(1000), 
     sector TEXT,
-    FOREIGN KEY (posted_by) REFERENCES companies (_id) ON DELETE CASCADE
+    FOREIGN KEY (company_id) REFERENCES companies (_id) ON DELETE CASCADE
     )
     """
     db_cxn = get_db_connection(True)
