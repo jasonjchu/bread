@@ -24,5 +24,6 @@ def populate_companies_data():
     data_src = 'data/companies-test.csv' if os.getenv("BREAD_ENV") == "testing" else 'data/companies.csv'
     populate_table('companies', data_src)
 
+
 if __name__ == '__main__':
     populate_companies_data()

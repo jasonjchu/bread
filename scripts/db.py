@@ -4,6 +4,7 @@ from mysql.connector import connect, MySQLConnection
 import os
 import csv
 from dotenv import load_dotenv, find_dotenv
+from typing import Callable
 
 
 load_dotenv(find_dotenv())
@@ -34,7 +35,8 @@ def drop_db():
         "DROP DATABASE IF EXISTS {0}".format(database_name)
     )
 
-def populate_table(table_name, file_name, transform_fn=lambda *args: None):
+
+def populate_table(table_name: str, file_name: str, transform_fn: Callable[..., None] = lambda *args: None):
     csv_file = os.path.join(os.path.dirname(__file__), os.pardir, file_name)
     with open(csv_file, encoding='utf8') as file:
         reader = csv.reader(file)

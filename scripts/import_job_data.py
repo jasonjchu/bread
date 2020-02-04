@@ -1,41 +1,9 @@
 # must do pip install mysql-connector-python python-dotenv
 # using python 3.6.8
-from mysql.connector import connect, MySQLConnection
 import datetime as dt
 import os
-from dotenv import load_dotenv, find_dotenv
-from db import populate_table
+from db import populate_table, get_db_connection
 import random
-
-
-load_dotenv(find_dotenv())
-database_name = os.getenv('BREAD_DB_NAME', 'bread_db')
-
-
-def get_db_connection(db_exists: bool) -> MySQLConnection:
-    return connect(
-        host=os.getenv('BREAD_DB_HOST', 'localhost'),
-        user=os.getenv('BREAD_DB_USER', 'root'),
-        passwd=os.getenv('BREAD_DB_PASSWD', 'password'),
-        database=database_name if db_exists else '',
-        auth_plugin='mysql_native_password'
-    )
-
-
-def create_db():
-    # always assume no DB exists at this step, since if not exists will leave things unchanged
-    db_cxn = get_db_connection(False)
-    db_cxn.cursor().execute(
-        "CREATE DATABASE IF NOT EXISTS {0}".format(database_name)
-    )
-
-
-def drop_db():
-    db_cxn = get_db_connection(True)
-    db_cxn.cursor().execute(
-        "DROP DATABASE IF EXISTS {0}".format(database_name)
-    )
-
 
 def create_table():
     query = """
