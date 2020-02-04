@@ -3,8 +3,8 @@
 from mysql.connector import connect, MySQLConnection
 import os
 import csv
-import datetime as dt
 from dotenv import load_dotenv, find_dotenv
+from typing import Callable
 
 
 load_dotenv(find_dotenv())
@@ -35,14 +35,14 @@ def drop_db():
         "DROP DATABASE IF EXISTS {0}".format(database_name)
     )
 
-def populate_table(table_name, file_name, transform_fn=lambda x: x):
+
+def populate_table(table_name: str, file_name: str, transform_fn: Callable[..., None] = lambda *args: None):
     csv_file = os.path.join(os.path.dirname(__file__), os.pardir, file_name)
     with open(csv_file, encoding='utf8') as file:
         reader = csv.reader(file)
         columns = next(reader)
         query_template = 'INSERT INTO %s({0}) values ({1})' % table_name
         query = query_template.format(','.join(columns), ','.join(['%s'] * len(columns)))
-        print(query)
         # get DB connection
         db_cxn = get_db_connection(True)
         cursor = db_cxn.cursor()
@@ -53,4 +53,5 @@ def populate_table(table_name, file_name, transform_fn=lambda x: x):
             if count % 100 == 0:
                 print('Inserted {} rows'.format(count))
             cursor.execute(query, data)
+        print('Successfully inserted {0} rows into {1}'.format(count, table_name))
         db_cxn.commit()

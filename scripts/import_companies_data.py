@@ -1,5 +1,5 @@
 from db import get_db_connection, populate_table
-
+import os
 
 def create_table():
     query = """
@@ -18,6 +18,12 @@ def drop_table():
     db_cxn.cursor().execute("DROP TABLE IF EXISTS companies")
 
 
-if __name__ == '__main__':
+def populate_companies_data():
+    drop_table()
     create_table()
-    populate_table('companies', 'data/companies.csv')
+    data_src = 'data/companies-test.csv' if os.getenv("BREAD_ENV") == "testing" else 'data/companies.csv'
+    populate_table('companies', data_src)
+
+
+if __name__ == '__main__':
+    populate_companies_data()
