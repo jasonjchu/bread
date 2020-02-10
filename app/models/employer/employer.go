@@ -15,7 +15,6 @@ type Employer struct {
 	WorksAt WorksAt `db:"works_at"`
 }
 
-// TODO(kallentu): Write Employer handler that requests this query.
 func GetEmployerById(id Id) (*Employer, error) {
 	pool := db.Pool
 	row := pool.QueryRowx("SELECT * FROM employers WHERE _id=?", id)
