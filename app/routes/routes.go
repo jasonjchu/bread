@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/go-chi/chi"
-	"github.com/jasonjchu/bread/app/handlers/getEmployersHandler"
+	"github.com/jasonjchu/bread/app/handlers/getEmployerHandler"
 	"github.com/jasonjchu/bread/app/handlers/getJobsHandler"
 )
 
@@ -19,6 +19,6 @@ func initJobRoutes(r chi.Router) {
 
 func initEmployerRoutes(r chi.Router) {
 	r.Route("/employers", func(r chi.Router) {
-		r.Get(getEmployersHandler.RouteURL, getEmployersHandler.Handler)
+		r.Get(getEmployerHandler.RouteURL, getEmployerHandler.Handler)
 	})
 }
