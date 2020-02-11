@@ -4,10 +4,11 @@ import os
 def create_table():
     query = """
     CREATE TABLE IF NOT EXISTS employers (
-    _id INT PRIMARY KEY AUTO_INCREMENT,
+    _id INT PRIMARY KEY,
     name VARCHAR(225),
     works_at INT,
-    FOREIGN KEY (works_at) REFERENCES companies (_id) ON DELETE CASCADE
+    FOREIGN KEY (works_at) REFERENCES companies (_id) ON DELETE CASCADE,
+    FOREIGN KEY (_id) REFERENCES accounts (_id) ON DELETE CASCADE
     )
     """
     db_cxn = get_db_connection(True)

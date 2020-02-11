@@ -6,35 +6,41 @@ def create_table():
     CREATE TABLE IF NOT EXISTS accounts (
     _id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(225),
-    password VARCHAR(255),
-    candidate_id INT,
-    employer_id INT,
-    FOREIGN KEY (candidate_id) REFERENCES candidates (_id) ON DELETE CASCADE,
-    FOREIGN KEY (employer_id) REFERENCES employers (_id) ON DELETE CASCADE
+    password VARCHAR(255)
     )
     """
     db_cxn = get_db_connection(True)
     db_cxn.cursor().execute(query)
 
 
-def drop_table():
+def drop_account_and_children():
     db_cxn = get_db_connection(True)
-    db_cxn.cursor().execute("DROP TABLE IF EXISTS accounts")
+    cursor = db_cxn.cursor()
+    # Drop table doesn't trigger on delete cascade in candidate/employer tables, hence will fail
+    # unless we drop all foreign key constraints in the children table as well.
+    # In this case just drop all the children tables cuz YOLO
+    cursor.execute("DROP TABLE IF EXISTS candidates")
+    cursor.execute("DROP TABLE IF EXISTS employers")
+    cursor.execute("DROP TABLE IF EXISTS accounts")
 
 
 def populate_accounts_data():
-    drop_table()
+    drop_account_and_children()
     create_table()
     # Only populates account test data in testing environment.
     if os.getenv("BREAD_ENV") == "testing":
         data_src = 'data/accounts-test.csv'
+        populate_table('accounts', data_src)
 
-        def transform_account(account):
-            account[2] = None if account[2] == '' else account[2]
-            account[3] = None if account[3] == '' else account[3]
 
-        populate_table('accounts', data_src, transform_account)
-
+warning = """
+WARNING: Running this script on its own will also drop candidates and employers!!!!!
+Consider using populate_data.py instead, otherwise you are responsible for also calling:
+import_candidates_data.py
+import_employers_data.py
+Failure to do so will result in a sentence of two (2) academic terms in MC basement.
+"""
 
 if __name__ == '__main__':
+    print(warning)
     populate_accounts_data()
