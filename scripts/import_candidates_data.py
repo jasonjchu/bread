@@ -3,11 +3,12 @@ import os
 
 def create_table():
     query = """
-    CREATE TABLE IF NOT EXISTS employers (
+    CREATE TABLE IF NOT EXISTS candidates (
     _id INT PRIMARY KEY,
     name VARCHAR(225),
-    works_at INT,
-    FOREIGN KEY (works_at) REFERENCES companies (_id) ON DELETE CASCADE,
+    program VARCHAR(225),
+    grad_date DATE,
+    description VARCHAR(225),
     FOREIGN KEY (_id) REFERENCES accounts (_id) ON DELETE CASCADE
     )
     """
@@ -17,17 +18,17 @@ def create_table():
 
 def drop_table():
     db_cxn = get_db_connection(True)
-    db_cxn.cursor().execute("DROP TABLE IF EXISTS employers")
+    db_cxn.cursor().execute("DROP TABLE IF EXISTS candidates")
 
 
-def populate_employers_data():
+def populate_candidates_data():
     drop_table()
     create_table()
-    # Only populates employer test data in testing environment.
+    # Only populates candidate test data in testing environment.
     if os.getenv("BREAD_ENV") == "testing":
-        data_src = 'data/employers-test.csv'
-        populate_table('employers', data_src)
+        data_src = 'data/candidates-test.csv'
+        populate_table('candidates', data_src)
 
 
 if __name__ == '__main__':
-    populate_employers_data()
+    populate_candidates_data()
