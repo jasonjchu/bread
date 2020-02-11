@@ -4,11 +4,12 @@ import os
 def create_table():
     query = """
     CREATE TABLE IF NOT EXISTS jobSeenCandidate (
-    liked BOOLEAN,
     cid INT,
     jid VARCHAR(255),
+    liked BOOLEAN,
     FOREIGN KEY (cid) REFERENCES candidates (_id) ON DELETE CASCADE,
-    FOREIGN KEY (jid) REFERENCES jobs (_id) ON DELETE CASCADE
+    FOREIGN KEY (jid) REFERENCES jobs (_id) ON DELETE CASCADE,
+    PRIMARY KEY (cid,jid)
     )
     """
     db_cxn = get_db_connection(True)

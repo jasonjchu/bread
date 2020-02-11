@@ -1,1 +1,1 @@
-Select * from jobs where _id not in (select jid from CandidateSeenJob where cid = 1)
+Select * from jobs where _id not in (select jid from candidateSeenJob where cid = 1);
