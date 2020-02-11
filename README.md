@@ -19,9 +19,22 @@ Tasks are to be completed by the set deadlines.
 - [ ] In-class demo: - April 2, 2020
 - [ ] Final report and code submission - April 2, 2020
 
+## API Endpoints
+### Get all jobs
+GET `/jobs`
+
+### Get employer by ID
+GET `/employers/{employer_id}`
+
 ## Running the API Server
+### Requirements
+1. Go >= 1.13.7
+1. [dep](https://github.com/golang/dep) >= 0.5.4
+
+### Starting the Server
 1. `dep ensure`
-2. `go run cmd/bread/main.go`
+1. `go run cmd/bread/main.go`
+1. The API server will be served at port 8080 by default.
 
 ## Running scripts
 ### Requirements
