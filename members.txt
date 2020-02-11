@@ -1,15 +1,40 @@
 Members & Contributions
 
 - Aaron Choo (@Aaronchoo)
+    - Built endpoint to expose Job data to Android.
+    - Wrote job handler to run queries, parsed interface object to JSON.
 
 - Jason Chu (@jasonjchu)
     - Set up basic android app
+    - Deployed MySQL database and environment variables.
+    - Created deployment pipeline
+    - Added AWS secret preprocessing and updated pipeline JSON.
+    - Generated candidates and accounts test data for testing database.
+    - Populated candidates and accounts table with Python script.
 
 - Kallen Tu (@kallentu)
-    - Wrote report.pdf.
+    - Wrote `report.pdf` for Milestone 0.
     - Wrote and will continuously ensure that `members.txt` is updated.
+    - Integrated MySQL driver, wrote the Job model and created basic queries to fetch jobs from database.
+    - Generated employers test data for testing database.
+    - Populated employers table with Python script.
+    - Added employer sample query with expected output.
+    - Updated `members.txt` for Milestone 1 with README directory documentation.
 
 - Charles Zhang (@gzcharleszhang)
     - Set up basic backend app
+    - Updated README with instructions for running server.
+    - Generated company test data with a smaller subset used for testing database.
+    - Populated companies table with Python script.
+    - Abstracted out common script methods to `db.py`.
+    - Modified `import_job_data.py` to include company_id in each row.
+    - Created ER Diagram for Milestone 1.
+    - Added `getEmployerByID` API endpoint.
 
 - Jack Zhang (@Novacer)
+    - Created import_job_data script to populate test data and database tables.
+    - Updated README with instructions for requirements for running scripts.
+    - Parsed .csv data to store in database and ran script to populate test data.
+    - Updated `report.pdf` for Milestone 1 to include descriptions, user interaction, sample data, and system support.
+    - Documented all fields required for the database design.
+    - Polished candidates and employers tables to reference accounts id values and updated scripts accordingly.

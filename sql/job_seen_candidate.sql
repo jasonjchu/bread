@@ -1,0 +1,1 @@
+select * from Candidates where _id in (select cid from CandidateSeenJob where jid=1e2637cb5f7a2c4615a99a26c0566c66 AND liked=True AND cid not in (select cid from JobSeenCandidate where jid=1e2637cb5f7a2c4615a99a26c0566c66))

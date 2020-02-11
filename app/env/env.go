@@ -10,6 +10,7 @@ const (
 	DBPasswordKey string = "BREAD_DB_PASSWD"
 	DBNameKey     string = "BREAD_DB_NAME"
 	DBNetKey      string = "BREAD_DB_NET"
+	DBCreds       string = "BREAD_DB_CREDS"
 )
 
 func LoadEnv() error {
