@@ -7,6 +7,7 @@ import (
 )
 
 type Id string
+type CompanyId int
 type Country string
 type CountryCode string
 type Board string
@@ -24,6 +25,7 @@ type Jobs []*Job
 // TODO(kallentu): Make component (usable) struct for Job.
 type Job struct {
 	Id           Id           `db:"_id"`
+	CompanyId    CompanyId    `db:"company_id"`
 	Country      Country      `db:"country"`
 	CountryCode  CountryCode  `db:"country_code"`
 	DateAdded    sql.NullTime `db:"date_added"` // Time is optional, must check if [DateAdded.Valid] before using
