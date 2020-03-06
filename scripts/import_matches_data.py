@@ -2,6 +2,7 @@ from db import get_db_connection, populate_table
 import os
 
 def create_table():
+    # TODO: Build index on uid/jid
     query = """
     CREATE TABLE IF NOT EXISTS matches (
     uid INT,

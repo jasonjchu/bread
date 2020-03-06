@@ -4,6 +4,7 @@ from import_companies_data import populate_companies_data
 from import_accounts_data import populate_accounts_data
 from import_candidates_data import populate_candidates_data
 from import_employers_data import populate_employers_data
+from import_matches_data import populate_matches_data
 
 if __name__ == '__main__':
     drop_db()
@@ -18,4 +19,6 @@ if __name__ == '__main__':
     populate_candidates_data()
     print("Populating employers data...")
     populate_employers_data()
+    print("Populating matches data...")
+    populate_matches_data()
     print("Successfully populated all data!")
