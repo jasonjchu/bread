@@ -1,7 +1,6 @@
 package account
 
 import (
-	"errors"
 	"github.com/jasonjchu/bread/app/db"
 	"github.com/jmoiron/sqlx"
 )
@@ -14,6 +13,12 @@ type Account struct {
 	Id       Id       `db:"_id"`
 	Username Username `db:"username"`
 	Password Password `db:"password"`
+}
+
+type InvalidPasswordError struct {}
+
+func (e InvalidPasswordError) Error() string {
+	return "Invalid password for login."
 }
 
 func CreateAccount(username Username, password Password) (Id, error) {
@@ -40,7 +45,7 @@ func GetAccountByUsername(username Username) (*Account, error) {
 
 func VerifyPassword(accountPassword Password, password Password) error {
 	if password != accountPassword {
-		return errors.New("invalid password for account")
+		return InvalidPasswordError{}
 	}
 	return nil
 }
