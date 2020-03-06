@@ -6,6 +6,7 @@ from import_candidates_data import populate_candidates_data
 from import_employers_data import populate_employers_data
 from import_candidate_seen_job_data import populate_candidateSeenJob_data
 from import_job_seen_candidate_data import populate_jobSeenCandidate_data
+from import_matches_data import populate_matches_data
 
 if __name__ == '__main__':
     drop_db()
@@ -24,4 +25,6 @@ if __name__ == '__main__':
     populate_candidateSeenJob_data()
     print("Populating job seen candidate data...")
     populate_jobSeenCandidate_data()
+    print("Populating matches data...")
+    populate_matches_data()
     print("Successfully populated all data!")
