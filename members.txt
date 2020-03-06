@@ -3,6 +3,9 @@ Members & Contributions
 - Aaron Choo (@Aaronchoo)
     - Built endpoint to expose Job data to Android.
     - Wrote job handler to run queries, parsed interface object to JSON.
+    - Generated candidateSeenJob and jobSeenCandidate test data for testing database.
+    - Populated candidateSeenJob and jobSeenCandidate table with Python script.
+    - Added candidateSeenJob and jobSeenCandidate sample query with expected output.
 
 - Jason Chu (@jasonjchu)
     - Set up basic android app
