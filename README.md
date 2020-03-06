@@ -39,6 +39,19 @@ POST `/employers/login`
 }
 ```
 
+### Candidate Registration
+POST `/candidates/register`
+```
+{
+    username: String
+    password: String
+    name: String
+    program: String
+    grad_date: DateTime
+    description: String
+}
+```
+
 ## Running the API Server
 ### Requirements
 1. Go >= 1.13.7

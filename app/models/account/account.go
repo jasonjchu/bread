@@ -6,7 +6,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type Id int
+type Id int64
 type Username string
 type Password string
 
@@ -14,6 +14,17 @@ type Account struct {
 	Id       Id       `db:"_id"`
 	Username Username `db:"username"`
 	Password Password `db:"password"`
+}
+
+func CreateAccount(username Username, password Password) (Id, error) {
+	pool := db.Pool
+	insertQuery := "INSERT INTO accounts (username, password) VALUES (?, ?)"
+	res, err := pool.Exec(insertQuery, username, password)
+	if err != nil {
+		return -1, err
+	}
+	accountId, err := res.LastInsertId()
+	return Id(accountId), err
 }
 
 func GetAccountByUsername(username Username) (*Account, error) {
