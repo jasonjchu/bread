@@ -30,7 +30,16 @@ GET `/jobs`
 ### Get employer by ID
 GET `/employers/{employer_id}`
 
-### Candidate registration
+### Employer Login
+POST `/employers/login`
+```.env
+{
+    username: String
+    password: String
+}
+```
+
+### Candidate Registration
 POST `/candidates/register`
 ```
 {

@@ -7,12 +7,12 @@ import (
 )
 
 type Request struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Name string `json:"name"`
-	Program string `json:"program"`
-	GradDate time.Time `json:"grad_date"`
-	Description string `json:"description"`
+	Username    account.Username `json:"username"`
+	Password    account.Password `json:"password"`
+	Name        string           `json:"name"`
+	Program     string           `json:"program"`
+	GradDate    time.Time        `json:"grad_date"`
+	Description string           `json:"description"`
 }
 
 type Response struct {
