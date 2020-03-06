@@ -30,6 +30,15 @@ GET `/jobs`
 ### Get employer by ID
 GET `/employers/{employer_id}`
 
+### Employer Login
+POST `/employers/login`
+```.env
+{
+    username: String
+    password: String
+}
+```
+
 ## Running the API Server
 ### Requirements
 1. Go >= 1.13.7
