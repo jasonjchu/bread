@@ -3,8 +3,43 @@ package candidate
 import (
 	"github.com/jasonjchu/bread/app/db"
 	"github.com/jasonjchu/bread/app/models/account"
+	"github.com/jmoiron/sqlx"
 	"time"
 )
+
+type Id int
+type Name string
+type Program string
+type GradDate time.Time
+type Description string
+
+type Candidate struct {
+	Id          Id          `db:"_id"`
+	Name        Name        `db:"name"`
+	Program     Program     `db:"program"`
+	GradDate    GradDate    `db:"grad_date"`
+	Description Description `db:"description"`
+}
+
+func GetCandidateById(id Id) (*Candidate, error) {
+	pool := db.Pool
+	row := pool.QueryRowx("SELECT * FROM candidates WHERE _id=?", id)
+
+	candidate, err := scanCandidateFromRow(row)
+	if err != nil {
+		return nil, err
+	}
+	return candidate, nil
+}
+
+func scanCandidateFromRow(row *sqlx.Row) (*Candidate, error) {
+	candidate := Candidate{}
+	err := row.StructScan(&candidate)
+	if err != nil {
+		return nil, err
+	}
+	return &candidate, err
+}
 
 func CreateCandidate(
 	name string,
