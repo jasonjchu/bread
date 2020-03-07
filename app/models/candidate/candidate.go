@@ -12,7 +12,7 @@ func CreateCandidate(
 	gradDate time.Time,
 	description string,
 	accountId account.Id,
-	) error {
+) error {
 	pool := db.Pool
 	insertQuery := "INSERT INTO candidates (_id, name, program, grad_date, description) VALUES (?, ?, ?, ?, ?)"
 	res, err := pool.Exec(insertQuery, accountId, name, program, gradDate, description)

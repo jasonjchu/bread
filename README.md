@@ -52,6 +52,22 @@ POST `/candidates/register`
 }
 ```
 
+### Employer Registration
+POST `/employers/register`
+```
+{
+    username: String
+    password: String
+    name: String
+    worksAt: Int
+}
+```
+
+### Get all companies
+GET `/companies{?name=}`
+
+Can also query by name. Does case-insensitive substring match with DB names.
+
 ## Running the API Server
 ### Requirements
 1. Go >= 1.13.7

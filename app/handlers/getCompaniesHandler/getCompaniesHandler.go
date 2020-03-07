@@ -19,6 +19,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 400)
 		return
 	}
-	response := ResponseWrapper{Companies:companies}
+	response := ResponseWrapper{Companies: companies}
 	w.Write([]byte(utils.ToJson(response)))
 }
