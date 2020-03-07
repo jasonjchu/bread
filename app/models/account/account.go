@@ -15,7 +15,7 @@ type Account struct {
 	Password Password `db:"password"`
 }
 
-type InvalidPasswordError struct {}
+type InvalidPasswordError struct{}
 
 func (e InvalidPasswordError) Error() string {
 	return "Invalid password for login."

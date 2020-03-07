@@ -89,4 +89,3 @@ func scanJobsFromRows(rows *sqlx.Rows) (Jobs, error) {
 	}
 	return jobs, err
 }
-
