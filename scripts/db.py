@@ -3,6 +3,7 @@
 from mysql.connector import connect, MySQLConnection
 import os
 import csv
+import codecs
 from dotenv import load_dotenv, find_dotenv
 from typing import Callable
 
@@ -38,7 +39,7 @@ def drop_db():
 
 def populate_table(table_name: str, file_name: str, transform_fn: Callable[..., None] = lambda *args: None):
     csv_file = os.path.join(os.path.dirname(__file__), os.pardir, file_name)
-    with open(csv_file, encoding='utf8') as file:
+    with codecs.open(csv_file, encoding='utf8', errors='ignore') as file:
         reader = csv.reader(file)
         columns = next(reader)
         query_template = 'INSERT INTO %s({0}) values ({1})' % table_name
