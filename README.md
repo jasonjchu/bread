@@ -30,28 +30,6 @@ GET `/jobs`
 ### Get employer by ID
 GET `/employers/{employer_id}`
 
-### Employer Login
-POST `/employers/login`
-```.env
-{
-    username: String
-    password: String
-}
-```
-
-### Candidate Registration
-POST `/candidates/register`
-```
-{
-    username: String
-    password: String
-    name: String
-    program: String
-    grad_date: DateTime
-    description: String
-}
-```
-
 ### Employer Registration
 POST `/employers/register`
 ```
@@ -62,6 +40,38 @@ POST `/employers/register`
     worksAt: Int
 }
 ```
+
+### Employer Login
+POST `/employers/login`
+```json
+{
+    username: String
+    password: String
+}
+```
+
+### Candidate Registration
+POST `/candidates/register`
+```json
+{
+    username: String
+    password: String
+    name: String
+    program: String
+    grad_date: DateTime
+    description: String
+}
+```
+
+### Candidate Login
+POST `/candidates/login`
+```json
+{
+    username: String
+    password: String
+}
+```
+
 
 ### Get all companies
 GET `/companies{?name=}`
