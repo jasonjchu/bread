@@ -9,11 +9,10 @@ def clean_utf8(file_name):
     Read file line by line, removing (ignoring) non utf8 characters
     Write result to temp file, copying to orig file on success
     :param file_name: the relative filename from project root
-    :return: None
     """
     csv_file = os.path.join(os.path.dirname(__file__), os.pardir, file_name)
     with codecs.open(csv_file, encoding='utf8', errors='ignore') as old, \
-            codecs.open(csv_file + 'temp', 'w', encoding='utf8') as new:
+            codecs.open(csv_file + 'temp', mode='w', encoding='utf8') as new:
         new.writelines(old)
     shutil.move(csv_file + 'temp', csv_file)
 

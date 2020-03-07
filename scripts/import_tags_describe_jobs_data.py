@@ -24,13 +24,22 @@ def drop_table():
 
 
 def assign_tags(jobs_data_src, tags_data_src, target):
+    """
+    Programmatically generate the tagsDescribeJobs data csv by reading the tags csv and the jobs csv.
+    Check if the job_title, job_description contains the tag name.
+    If so, add the tuple to the csv
+    :param jobs_data_src: path to jobs data csv
+    :param tags_data_src: path to tags data csv
+    :param target: path/name of the output file
+    """
     print("Assigning tags...")
     src_csv = os.path.join(os.path.dirname(__file__), os.pardir, jobs_data_src)
     tags_csv = os.path.join(os.path.dirname(__file__), os.pardir, tags_data_src)
     target_csv = os.path.join(os.path.dirname(__file__), os.pardir, target)
 
     tags_and_ids = []  # array of tuples (tag_name, tag_id)
-    with open(tags_csv, 'r') as tags_file:
+    # Build the array by reading the tags csv
+    with codecs.open(tags_csv, mode='r') as tags_file:
         tags_reader = csv.reader(tags_file)
         tags_columns = next(tags_reader)
         tid = tags_columns.index('_id')
@@ -40,6 +49,7 @@ def assign_tags(jobs_data_src, tags_data_src, target):
             tags_and_ids.append((data[tag_name].lower(), data[tid]))
 
     assigned_tags = set()  # set of tuples (tag_id, job_id)
+    # Build the set by reading the src csv
     with codecs.open(src_csv, encoding='utf8', errors='ignore') as src_file:
         src_reader = csv.reader(src_file)
         src_columns = next(src_reader)
@@ -55,6 +65,7 @@ def assign_tags(jobs_data_src, tags_data_src, target):
                 if tag_name in search_txt_title or tag_name in search_txt_desc:
                     assigned_tags.add((tid, data[job_id]))
 
+    # Write out the final output
     with codecs.open(target_csv, mode='w', encoding='utf8') as output:
         output.write('tid,jid\n')
         for (tid, jid) in assigned_tags:
@@ -76,4 +87,3 @@ def populate_tagsDescribeJobs_data():
 
 if __name__ == '__main__':
     populate_tagsDescribeJobs_data()
-
