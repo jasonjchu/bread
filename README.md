@@ -30,6 +30,17 @@ GET `/jobs`
 ### Get employer by ID
 GET `/employers/{employer_id}`
 
+### Employer Registration
+POST `/employers/register`
+```
+{
+    username: String
+    password: String
+    name: String
+    worksAt: Int
+}
+```
+
 ### Employer Login
 POST `/employers/login`
 ```json
@@ -60,6 +71,12 @@ POST `/candidates/login`
     password: String
 }
 ```
+
+
+### Get all companies
+GET `/companies{?name=}`
+
+Can also query by name. Does case-insensitive substring match with DB names.
 
 ## Running the API Server
 ### Requirements

@@ -2,6 +2,7 @@ package employer
 
 import (
 	"github.com/jasonjchu/bread/app/db"
+	"github.com/jasonjchu/bread/app/models/account"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -33,4 +34,15 @@ func scanEmployerFromRow(row *sqlx.Row) (*Employer, error) {
 		return nil, err
 	}
 	return &employer, err
+}
+
+func CreateEmployer(name Name, worksAt WorksAt, accountId account.Id) error {
+	pool := db.Pool
+	insertQuery := "INSERT INTO employers (_id, name, works_at) VALUES (?, ?, ?)"
+	res, err := pool.Exec(insertQuery, accountId, name, worksAt)
+	if err != nil {
+		return err
+	}
+	_, err = res.LastInsertId()
+	return err
 }

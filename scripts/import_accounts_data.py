@@ -5,7 +5,7 @@ def create_table():
     query = """
     CREATE TABLE IF NOT EXISTS accounts (
     _id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(225),
+    username VARCHAR(225) UNIQUE,
     password VARCHAR(255)
     )
     """
