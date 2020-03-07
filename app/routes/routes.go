@@ -4,6 +4,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/jasonjchu/bread/app/handlers/candidateRegisterHandler"
 	"github.com/jasonjchu/bread/app/handlers/employerLoginHandler"
+	"github.com/jasonjchu/bread/app/handlers/employerRegisterHandler"
 	"github.com/jasonjchu/bread/app/handlers/getEmployerHandler"
 	"github.com/jasonjchu/bread/app/handlers/getJobsHandler"
 )
@@ -24,6 +25,7 @@ func initEmployerRoutes(r chi.Router) {
 	r.Route("/employers", func(r chi.Router) {
 		r.Get(getEmployerHandler.RouteURL, getEmployerHandler.Handler)
 		r.Post(employerLoginHandler.RouteURL, employerLoginHandler.Handler)
+		r.Post(employerRegisterHandler.RouteURL, employerRegisterHandler.Handler)
 	})
 }
 
