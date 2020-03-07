@@ -1,4 +1,5 @@
 from db import get_db_connection, populate_table
+from collections import OrderedDict
 import os
 import csv
 import codecs
@@ -48,7 +49,7 @@ def assign_tags(jobs_data_src, tags_data_src, target):
         for data in tags_reader:
             tags_and_ids.append((data[tag_name].lower(), data[tid]))
 
-    assigned_tags = set()  # set of tuples (tag_id, job_id)
+    assigned_tags = OrderedDict()  # set of tuples (tag_id, job_id)
     # Build the set by reading the src csv
     with codecs.open(src_csv, encoding='utf8', errors='ignore') as src_file:
         src_reader = csv.reader(src_file)
@@ -63,12 +64,12 @@ def assign_tags(jobs_data_src, tags_data_src, target):
 
             for (tag_name, tid) in tags_and_ids:
                 if tag_name in search_txt_title or tag_name in search_txt_desc:
-                    assigned_tags.add((tid, data[job_id]))
+                    assigned_tags[(tid, data[job_id])] = None
 
     # Write out the final output
     with codecs.open(target_csv, mode='w', encoding='utf8') as output:
         output.write('tid,jid\n')
-        for (tid, jid) in assigned_tags:
+        for (tid, jid) in assigned_tags.keys():
             output.write('{},{}\n'.format(tid, jid))
 
     print("Tags assigned successfully!")
