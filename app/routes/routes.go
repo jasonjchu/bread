@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/go-chi/chi"
+	"github.com/jasonjchu/bread/app/handlers/candidateLoginHandler"
 	"github.com/jasonjchu/bread/app/handlers/candidateRegisterHandler"
 	"github.com/jasonjchu/bread/app/handlers/employerLoginHandler"
 	"github.com/jasonjchu/bread/app/handlers/getEmployerHandler"
@@ -30,5 +31,6 @@ func initEmployerRoutes(r chi.Router) {
 func initCandidateRoutes(r chi.Router) {
 	r.Route("/candidates", func(r chi.Router) {
 		r.Post(candidateRegisterHandler.RouteURL, candidateRegisterHandler.Handler)
+		r.Post(candidateLoginHandler.RouteURL, candidateLoginHandler.Handler)
 	})
 }

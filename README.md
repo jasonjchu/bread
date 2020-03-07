@@ -32,7 +32,7 @@ GET `/employers/{employer_id}`
 
 ### Employer Login
 POST `/employers/login`
-```.env
+```json
 {
     username: String
     password: String
@@ -41,7 +41,7 @@ POST `/employers/login`
 
 ### Candidate Registration
 POST `/candidates/register`
-```
+```json
 {
     username: String
     password: String
@@ -49,6 +49,15 @@ POST `/candidates/register`
     program: String
     grad_date: DateTime
     description: String
+}
+```
+
+### Candidate Login
+POST `/candidates/login`
+```json
+{
+    username: String
+    password: String
 }
 ```
 
