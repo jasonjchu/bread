@@ -14,6 +14,7 @@ Members & Contributions
     - Added AWS secret preprocessing and updated pipeline JSON.
     - Generated candidates and accounts test data for testing database.
     - Populated candidates and accounts table with Python script.
+    - Created login activity with basic UI on the Android app.
 
 - Kallen Tu (@kallentu)
     - Wrote `report.pdf` for Milestone 0.
@@ -23,6 +24,8 @@ Members & Contributions
     - Populated employers table with Python script.
     - Added employer sample query with expected output.
     - Updated `members.txt` for Milestone 1 with README directory documentation.
+    - Added test data for matches.
+    - Added employer login API route.
 
 - Charles Zhang (@gzcharleszhang)
     - Set up basic backend app
@@ -33,6 +36,9 @@ Members & Contributions
     - Modified `import_job_data.py` to include company_id in each row.
     - Created ER Diagram for Milestone 1.
     - Added `getEmployerByID` API endpoint.
+    - Added candidate register and login API route.
+    - Generated production .sql and .out files for employers query.
+    - Duplicated data files for production, modifying existing scripts to populate production data.
 
 - Jack Zhang (@Novacer)
     - Created import_job_data script to populate test data and database tables.
@@ -41,3 +47,6 @@ Members & Contributions
     - Updated `report.pdf` for Milestone 1 to include descriptions, user interaction, sample data, and system support.
     - Documented all fields required for the database design.
     - Polished candidates and employers tables to reference accounts id values and updated scripts accordingly.
+    - Added employer register API route.
+    - Added jobs tag data and fixed unstable tag assignment.
+    - Updated `report.pdf` for Milestone 2 to include optimizations, schema changes, and implemented features.

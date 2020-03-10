@@ -11,6 +11,7 @@ Tinder-inspired job searching application for employers and prospective employee
 │   ├── models                  # Data structures and queries for the SQL database.
 │   ├── routes                  # Initializes API endpoints.
 │   ├── server
+│   ├── services                # Data structures for handlers and API executing logic.
 │   └── utils
 ├── cmd                         # Main entrypoint to bread.
 ├── data                        # CSV test data.
@@ -110,7 +111,7 @@ Tasks are to be completed by the set deadlines.
 
 - [X] Milestone 0: Project Preparation - Jan. 30, 2020
 - [X] Milestone 1: Project Proposal - Feb. 11, 2020
-- [ ] Milestone 2: Midterm report - Mar. 5, 2020
+- [X] Milestone 2: Midterm report - Mar. 10, 2020
 - [ ] In-class demo: - April 2, 2020
 - [ ] Final report and code submission - April 2, 2020
 
