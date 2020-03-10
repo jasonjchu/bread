@@ -32,7 +32,7 @@ GET `/jobs`
 GET `/employers/{employer_id}`
 
 ### Get candidates for employer job by ID
-GET `/employers/jobs/{job_id}`
+GET `/employers/candidates-for-job/{job_id}`
 
 ### Employer Registration
 POST `/employers/register`
@@ -77,7 +77,7 @@ POST `/candidates/login`
 ```
 
 ### Get jobs not seen for candidate by ID
-GET `/candidates/jobs/{candidate_id}`
+GET `/candidates/jobs/candidate/{candidate_id}`
 
 
 ### Get all companies
