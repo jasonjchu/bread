@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - master
+
+name: Deploy to Amazon ECS
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup Python
+      uses: actions/setup-python@v1.2.0
+          
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install mysql-connector-python python-dotenv
+          
+    - name: Checkout
+      uses: actions/checkout@v1
+      
+    - name: Run deploy script
+      env:
+        BREAD_DB_HOST: ${{ secrets.PROD_DB_ENDPOINT }}
+        BREAD_DB_USER: ${{ secrets.PROD_DB_USER }}
+        BREAD_DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
+      run: |
+        python scripts/populate_data.py
