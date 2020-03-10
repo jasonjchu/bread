@@ -101,6 +101,10 @@ py scripts/populate_data.py
 ```
 Create the MySQL database, add and populate the tables.
 
+Set environment variable `BREAD_ENV=testing` if you wish
+to populate using testing data, otherwise the script
+will use production data.
+
 ## Milestones
 Tasks are to be completed by the set deadlines.
 

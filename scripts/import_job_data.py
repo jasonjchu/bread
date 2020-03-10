@@ -1,8 +1,7 @@
 # must do pip install mysql-connector-python python-dotenv
 # using python 3.6.8
 import datetime as dt
-import os
-from db import populate_table, get_db_connection
+from db import populate_table, get_db_connection, get_data_src
 import random
 
 def create_table():
@@ -47,7 +46,6 @@ def populate_jobs_data():
     drop_table()
     create_table()
 
-    data_src = 'data/jobs-test.csv' if os.getenv("BREAD_ENV") == "testing" else 'data/jobs.csv'
     companies_count = get_companies_count()
 
     # massaging job data before saving into DB
@@ -59,7 +57,9 @@ def populate_jobs_data():
         # Randomly assign job to a company that exists in the DB
         job[-1] = random.randint(1,companies_count) if companies_count > 0 else 0
 
-    populate_table('jobs', data_src, transform_job)
+    table_name = 'jobs'
+    data_src = get_data_src(table_name)
+    populate_table(table_name, data_src, transform_job)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-from db import get_db_connection, populate_table
+from db import get_db_connection, populate_table, get_data_src
 import os
 
 def create_table():
@@ -21,8 +21,9 @@ def drop_table():
 def populate_companies_data():
     drop_table()
     create_table()
-    data_src = 'data/companies-test.csv' if os.getenv("BREAD_ENV") == "testing" else 'data/companies.csv'
-    populate_table('companies', data_src)
+    table_name = 'companies'
+    data_src = get_data_src(table_name)
+    populate_table(table_name, data_src)
 
 
 if __name__ == '__main__':
