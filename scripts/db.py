@@ -56,3 +56,12 @@ def populate_table(table_name: str, file_name: str, transform_fn: Callable[..., 
             cursor.execute(query, data)
         print('Successfully inserted {0} rows into {1}'.format(count, table_name))
         db_cxn.commit()
+
+
+def get_data_src(name: str):
+    # use test data if we are in testing env
+    return (
+        'data/%s-test.csv' % name
+        if os.getenv("BREAD_ENV") == "testing"
+        else 'data/$s.csv' % name
+    )

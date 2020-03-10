@@ -1,4 +1,4 @@
-from db import get_db_connection, populate_table
+from db import get_db_connection, populate_table, get_data_src
 import os
 
 def create_table():
@@ -23,10 +23,9 @@ def drop_table():
 def populate_employers_data():
     drop_table()
     create_table()
-    # Only populates employer test data in testing environment.
-    if os.getenv("BREAD_ENV") == "testing":
-        data_src = 'data/employers-test.csv'
-        populate_table('employers', data_src)
+    table_name = 'employers'
+    data_src = get_data_src(table_name)
+    populate_table(table_name, data_src)
 
 
 if __name__ == '__main__':

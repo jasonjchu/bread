@@ -1,4 +1,4 @@
-from db import get_db_connection, populate_table
+from db import get_db_connection, populate_table, get_data_src
 import os
 
 def create_table():
@@ -27,10 +27,9 @@ def drop_account_and_children():
 def populate_accounts_data():
     drop_account_and_children()
     create_table()
-    # Only populates account test data in testing environment.
-    if os.getenv("BREAD_ENV") == "testing":
-        data_src = 'data/accounts-test.csv'
-        populate_table('accounts', data_src)
+    table_name = 'accounts'
+    data_src = get_data_src(table_name)
+    populate_table(table_name, data_src)
 
 
 warning = """

@@ -1,4 +1,4 @@
-from db import get_db_connection, populate_table
+from db import get_db_connection, populate_table, get_data_src
 from collections import OrderedDict
 import os
 import csv
@@ -78,12 +78,10 @@ def assign_tags(jobs_data_src, tags_data_src, target):
 def populate_tagsDescribeJobs_data():
     drop_table()
     create_table()
-    # Only populates tagsDescribeJobs test data in testing environment.
-    if os.getenv("BREAD_ENV") == "testing":
-        data_src = 'data/tagsDescribeJobs-test.csv'
-        assign_tags('data/jobs-test.csv', 'data/jobTags-test.csv', data_src)
-
-        populate_table('tagsDescribeJobs', data_src)
+    table_name = 'tagsDescribeJobs'
+    data_src = get_data_src(table_name)
+    assign_tags(get_data_src('jobs'), get_data_src('jobTags'), data_src)
+    populate_table(table_name, data_src)
 
 
 if __name__ == '__main__':

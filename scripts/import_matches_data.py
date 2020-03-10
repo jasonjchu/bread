@@ -1,4 +1,4 @@
-from db import get_db_connection, populate_table
+from db import get_db_connection, populate_table, get_data_src
 import os
 
 def create_table():
@@ -24,9 +24,9 @@ def drop_table():
 def populate_matches_data():
     drop_table()
     create_table()
-    if os.getenv("BREAD_ENV") == "testing":
-        data_src = 'data/matches-test.csv'
-        populate_table('matches', data_src)
+    table_name = 'matches'
+    data_src = get_data_src(table_name)
+    populate_table(table_name, data_src)
 
 
 if __name__ == '__main__':
