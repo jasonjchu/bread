@@ -6,6 +6,8 @@ import (
 	"github.com/jasonjchu/bread/app/handlers/candidateRegisterHandler"
 	"github.com/jasonjchu/bread/app/handlers/employerLoginHandler"
 	"github.com/jasonjchu/bread/app/handlers/employerRegisterHandler"
+	"github.com/jasonjchu/bread/app/handlers/getCandidateJobsHandler"
+	"github.com/jasonjchu/bread/app/handlers/getCandidatePoolHandler"
 	"github.com/jasonjchu/bread/app/handlers/getCompaniesHandler"
 	"github.com/jasonjchu/bread/app/handlers/getEmployerHandler"
 	"github.com/jasonjchu/bread/app/handlers/getJobsHandler"
@@ -21,6 +23,13 @@ func InitRoutes(r chi.Router) {
 func initJobRoutes(r chi.Router) {
 	r.Route("/jobs", func(r chi.Router) {
 		r.Get(getJobsHandler.RouteURL, getJobsHandler.Handler)
+		r.Route("/employer", func(r chi.Router) {
+			r.Get(getCandidatePoolHandler.RouteURL, getCandidatePoolHandler.Handler)
+		})
+
+		r.Route("/candidate", func(r chi.Router) {
+			r.Get(getCandidateJobsHandler.RouteURL, getCandidateJobsHandler.Handler)
+		})
 	})
 }
 
