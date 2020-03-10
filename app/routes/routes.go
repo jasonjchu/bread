@@ -31,7 +31,7 @@ func initEmployerRoutes(r chi.Router) {
 		r.Get(getEmployerHandler.RouteURL, getEmployerHandler.Handler)
 		r.Post(employerLoginHandler.RouteURL, employerLoginHandler.Handler)
 		r.Post(employerRegisterHandler.RouteURL, employerRegisterHandler.Handler)
-		r.Route("/jobs", func(r chi.Router) {
+		r.Route("/candidates-for-job", func(r chi.Router) {
 			r.Get(getCandidatesForJobHandler.RouteURL, getCandidatesForJobHandler.Handler)
 		})
 	})
@@ -41,7 +41,7 @@ func initCandidateRoutes(r chi.Router) {
 	r.Route("/candidates", func(r chi.Router) {
 		r.Post(candidateRegisterHandler.RouteURL, candidateRegisterHandler.Handler)
 		r.Post(candidateLoginHandler.RouteURL, candidateLoginHandler.Handler)
-		r.Route("/jobs", func(r chi.Router) {
+		r.Route("/jobs/candidate", func(r chi.Router) {
 			r.Get(getJobsForCandidatesHandler.RouteURL, getJobsForCandidatesHandler.Handler)
 		})
 	})
