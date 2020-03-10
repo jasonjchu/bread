@@ -33,9 +33,11 @@ func GetCandidateById(id Id) (*Candidate, error) {
 	return candidate, nil
 }
 
-func GetCandidatesByJid(id Id, candidateLimit int) (Candidates, error){
+func GetCandidatesByJidLiked(id string, candidateLimit int) (Candidates, error){
 	pool := db.Pool
-	rows, err := pool.Queryx("SELECT * FROM candidates WHERE _id in (SELECT cid FROM candidateSeenJob WHERE jid=? AND liked=True AND cid NOT IN (SELECT cid FROM jobSeenCandidate WHERE jid=?)) LIMIT ?", id, id, candidateLimit)
+	rows, err := pool.Queryx("SELECT * FROM candidates WHERE _id in " +
+		"(SELECT cid FROM candidateSeenJob WHERE jid=? AND liked=True AND cid NOT IN " +
+		"(SELECT cid FROM jobSeenCandidate WHERE jid=?)) LIMIT ?", id, id, candidateLimit)
 	if err != nil {
 		return nil, err
 	}

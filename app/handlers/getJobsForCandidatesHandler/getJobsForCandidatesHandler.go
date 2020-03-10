@@ -1,4 +1,4 @@
-package getCandidateJobsHandler
+package getJobsForCandidatesHandler
 
 import (
 	"github.com/go-chi/chi"
@@ -7,12 +7,13 @@ import (
 	"net/http"
 )
 
+// TODO: Change from passing the route in the param url to in the request header
 const RouteURL string = "/{id}"
 const jobLimit int = 200
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	candidateId := chi.URLParam(r, "id")
-	jobs, err := job.GetJobsByCid(job.Id(candidateId), jobLimit)
+	jobs, err := job.GetJobsByCidNotSeen(candidateId, jobLimit)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
