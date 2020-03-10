@@ -30,6 +30,9 @@ GET `/jobs`
 ### Get employer by ID
 GET `/employers/{employer_id}`
 
+### Get candidates for employer job by ID
+GET `/employers/jobs/{job_id}`
+
 ### Employer Registration
 POST `/employers/register`
 ```
@@ -71,6 +74,9 @@ POST `/candidates/login`
     password: String
 }
 ```
+
+### Get jobs not seen for candidate by ID
+GET `/candidates/jobs/{candidate_id}`
 
 
 ### Get all companies
