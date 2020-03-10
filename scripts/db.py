@@ -63,5 +63,5 @@ def get_data_src(name: str):
     return (
         'data/%s-test.csv' % name
         if os.getenv("BREAD_ENV") == "testing"
-        else 'data/$s.csv' % name
+        else 'data/%s.csv' % name
     )
