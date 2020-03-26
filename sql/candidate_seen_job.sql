@@ -1,1 +1,1 @@
-Select * from jobs where _id not in (select jid from candidateSeenJob where cid = 1);
+SELECT * FROM jobs WHERE _id NOT IN (SELECT jid FROM candidateSeenJob WHERE cid = 1) LIMIT 200;
