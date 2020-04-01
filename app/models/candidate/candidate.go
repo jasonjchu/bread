@@ -12,6 +12,7 @@ type Name string
 type Program string
 type GradDate time.Time
 type Description string
+type Candidates []*Candidate
 
 type Candidate struct {
 	Id          Id          `db:"_id"`
@@ -32,6 +33,21 @@ func GetCandidateById(id Id) (*Candidate, error) {
 	return candidate, nil
 }
 
+func GetCandidatesByJidLiked(id string, candidateLimit int) (Candidates, error){
+	pool := db.Pool
+	rows, err := pool.Queryx("SELECT * FROM candidates WHERE _id in " +
+		"(SELECT cid FROM candidateSeenJob WHERE jid=? AND liked=True AND cid NOT IN " +
+		"(SELECT cid FROM jobSeenCandidate WHERE jid=?)) LIMIT ?", id, id, candidateLimit)
+	if err != nil {
+		return nil, err
+	}
+	candidates, err := scanCandidateFromRows(rows)
+	if err != nil {
+		return nil, err
+	}
+	return candidates, nil
+}
+
 func scanCandidateFromRow(row *sqlx.Row) (*Candidate, error) {
 	candidate := Candidate{}
 	err := row.StructScan(&candidate)
@@ -39,6 +55,20 @@ func scanCandidateFromRow(row *sqlx.Row) (*Candidate, error) {
 		return nil, err
 	}
 	return &candidate, err
+}
+
+func scanCandidateFromRows(rows *sqlx.Rows) (Candidates, error) {
+	var candidates Candidates
+	var err error
+	for rows.Next() {
+		candidate := Candidate{}
+		err = rows.StructScan(&candidate)
+		if err != nil {
+			return nil, err
+		}
+		candidates = append(candidates, &candidate)
+	}
+	return candidates, err
 }
 
 func CreateCandidate(
