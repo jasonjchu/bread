@@ -68,8 +68,22 @@ func GetJobs(numberOfJobs int) (Jobs, error) {
 
 func GetJobsByCidNotSeen(cid string, numberOfJobs int) (Jobs, error) {
 	pool := db.Pool
-	rows, err := pool.Queryx("SELECT * FROM jobs WHERE _id NOT IN " +
+	rows, err := pool.Queryx("SELECT * FROM jobs WHERE _id NOT IN "+
 		"(SELECT jid FROM candidateSeenJob WHERE cid = ?) LIMIT ?;", cid, numberOfJobs)
+	if err != nil {
+		return nil, err
+	}
+
+	jobs, err := scanJobsFromRows(rows)
+	if err != nil {
+		return nil, err
+	}
+	return jobs, nil
+}
+
+func GetJobsByCompany(companyID CompanyId) (Jobs, error) {
+	pool := db.Pool
+	rows, err := pool.Queryx("SELECT * FROM jobs WHERE company_id = ?", companyID)
 	if err != nil {
 		return nil, err
 	}
