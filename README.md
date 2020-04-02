@@ -36,6 +36,7 @@ GET `/employers/candidates-for-job/{job_id}`
 
 ### Employer Registration
 POST `/employers/register`
+##### Request Body
 ```
 {
     username: String
@@ -47,6 +48,7 @@ POST `/employers/register`
 
 ### Employer Login
 POST `/employers/login`
+##### Request Body
 ```json
 {
     username: String
@@ -56,6 +58,7 @@ POST `/employers/login`
 
 ### Candidate Registration
 POST `/candidates/register`
+##### Request Body
 ```json
 {
     username: String
@@ -69,6 +72,7 @@ POST `/candidates/register`
 
 ### Candidate Login
 POST `/candidates/login`
+##### Request Body
 ```json
 {
     username: String
@@ -84,6 +88,15 @@ GET `/candidates/jobs/candidate/{candidate_id}`
 GET `/companies{?name=}`
 
 Can also query by name. Does case-insensitive substring match with DB names.
+
+### Get open job postings for employer
+GET `/employers/jobs`
+##### Request Header
+```json
+{
+  user_id: Int
+}
+```
 
 ## Running the API Server
 ### Requirements
