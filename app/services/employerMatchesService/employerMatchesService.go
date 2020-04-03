@@ -45,26 +45,20 @@ func Exec(request Request) (*Response, error) {
 	jobMatchGroups := make(map[job.Id]*JobMatch)
 
 	for _, jobMatch := range matchesData {
+
+		candidateProfile := CandidateProfile{
+			CandidateId:       jobMatch.CandidateId,
+			CandidateName:     jobMatch.CandidateName,
+			CandidateProgram:  jobMatch.CandidateProgram,
+			CandidateGradDate: jobMatch.CandidateGradDate,
+		}
+
 		// if seen job before, just add the candidate to the profiles list
 		if val, ok := jobMatchGroups[jobMatch.JobId]; ok {
-			// create new candidate profile
-			candidateProfile := CandidateProfile{
-				CandidateId:       jobMatch.CandidateId,
-				CandidateName:     jobMatch.CandidateName,
-				CandidateProgram:  jobMatch.CandidateProgram,
-				CandidateGradDate: jobMatch.CandidateGradDate,
-			}
+
 			val.Candidates = append(val.Candidates, &candidateProfile)
 		} else {
 			// make new entry
-
-			candidateProfile := CandidateProfile{
-				CandidateId:       jobMatch.CandidateId,
-				CandidateName:     jobMatch.CandidateName,
-				CandidateProgram:  jobMatch.CandidateProgram,
-				CandidateGradDate: jobMatch.CandidateGradDate,
-			}
-
 			newEntry := JobMatch{
 				JobId:       jobMatch.JobId,
 				CompanyId:   jobMatch.CompanyId,
