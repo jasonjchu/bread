@@ -9,7 +9,6 @@ import (
 	"time"
 )
 
-
 type Request struct {
 	Id employer.Id `json:"employer_id"`
 }
@@ -22,23 +21,23 @@ type Matches []*JobMatch
 type Profiles []*CandidateProfile
 
 type JobMatch struct {
-	JobId       job.Id              `json:"job_id"`
-	CompanyId   job.CompanyId       `json:"company_id"`
-	CompanyName company.Name        `json:"company_name"`
-	JobTitle    job.Title           `json:"job_title"`
-	JobLocation job.Location        `json:"job_location"`
-	Candidates  Profiles            `json:"candidate_profiles"`
+	JobId       job.Id        `json:"job_id"`
+	CompanyId   job.CompanyId `json:"company_id"`
+	CompanyName company.Name  `json:"company_name"`
+	JobTitle    job.Title     `json:"job_title"`
+	JobLocation job.Location  `json:"job_location"`
+	Candidates  Profiles      `json:"candidate_profiles"`
 }
 
 type CandidateProfile struct {
-	CandidateId       candidate.Id       `json:"id"`
-	CandidateName     candidate.Name     `json:"name"`
-	CandidateProgram  candidate.Program  `json:"program"`
-	CandidateGradDate time.Time `json:"grad_date"`
+	CandidateId       candidate.Id      `json:"id"`
+	CandidateName     candidate.Name    `json:"name"`
+	CandidateProgram  candidate.Program `json:"program"`
+	CandidateGradDate time.Time         `json:"grad_date"`
 }
 
 func Exec(request Request) (*Response, error) {
-	matchesData, err:= match.GetMatchForEmployer(request.Id)
+	matchesData, err := match.GetMatchForEmployer(request.Id)
 	if err != nil {
 		return nil, err
 	}
