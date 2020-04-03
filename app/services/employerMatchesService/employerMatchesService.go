@@ -6,6 +6,7 @@ import (
 	"github.com/jasonjchu/bread/app/models/employer"
 	"github.com/jasonjchu/bread/app/models/job"
 	"github.com/jasonjchu/bread/app/models/match"
+	"time"
 )
 
 
@@ -33,7 +34,7 @@ type CandidateProfile struct {
 	CandidateId       candidate.Id       `json:"id"`
 	CandidateName     candidate.Name     `json:"name"`
 	CandidateProgram  candidate.Program  `json:"program"`
-	CandidateGradDate candidate.GradDate `json:"grad_date"`
+	CandidateGradDate time.Time `json:"grad_date"`
 }
 
 func Exec(request Request) (*Response, error) {

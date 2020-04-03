@@ -7,6 +7,7 @@ import (
 	"github.com/jasonjchu/bread/app/models/employer"
 	"github.com/jasonjchu/bread/app/models/job"
 	"github.com/jmoiron/sqlx"
+	"time"
 )
 
 
@@ -24,7 +25,7 @@ type EmployerMatch struct {
 	// include some basic candidate profile info
 	CandidateName     candidate.Name     `db:"cand_name"`
 	CandidateProgram  candidate.Program  `db:"program"`
-	CandidateGradDate candidate.GradDate `db:"grad_date"`
+	CandidateGradDate time.Time          `db:"grad_date"`
 }
 
 
