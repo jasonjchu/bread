@@ -25,8 +25,8 @@ Tinder-inspired job searching application for employers and prospective employee
 ```
 
 ## API Endpoints
-### Get all jobs
-GET `/jobs`
+### Get all jobs (can also query by id)
+GET `/jobs{?id=}`
 
 ### Get employer by ID
 GET `/employers/{employer_id}`
@@ -79,6 +79,10 @@ POST `/candidates/login`
     password: String
 }
 ```
+
+### Get Candidate by Id
+GET `/candidates/{id}`
+
 
 ### Candidate Likes Job (Swipes Right)
 POST `/candidates/jobs/{job_id}/like`
