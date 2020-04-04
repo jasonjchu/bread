@@ -2,6 +2,8 @@ package routes
 
 import (
 	"github.com/go-chi/chi"
+	"github.com/jasonjchu/bread/app/handlers/candidateDislikesJobHandler"
+	"github.com/jasonjchu/bread/app/handlers/candidateLikesJobHandler"
 	"github.com/jasonjchu/bread/app/handlers/candidateLoginHandler"
 	"github.com/jasonjchu/bread/app/handlers/candidateRegisterHandler"
 	"github.com/jasonjchu/bread/app/handlers/employerLoginHandler"
@@ -45,8 +47,16 @@ func initCandidateRoutes(r chi.Router) {
 	r.Route("/candidates", func(r chi.Router) {
 		r.Post(candidateRegisterHandler.RouteURL, candidateRegisterHandler.Handler)
 		r.Post(candidateLoginHandler.RouteURL, candidateLoginHandler.Handler)
-		r.Route("/jobs/candidate", func(r chi.Router) {
+
+		r.Route("/jobs", func(r chi.Router) {
+			// GET JOBS
 			r.Get(getJobsForCandidatesHandler.RouteURL, getJobsForCandidatesHandler.Handler)
+
+			// LIKE AND DISLIKE JOBS
+			r.Route("/{job_id}", func(r chi.Router) {
+				r.Post(candidateLikesJobHandler.RouteURL, candidateLikesJobHandler.Handler)
+				r.Post(candidateDislikesJobHandler.RouteURL, candidateDislikesJobHandler.Handler)
+			})
 		})
 	})
 }

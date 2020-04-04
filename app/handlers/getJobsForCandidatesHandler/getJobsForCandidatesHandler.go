@@ -8,7 +8,7 @@ import (
 )
 
 // TODO: Change from passing the route in the param url to in the request header
-const RouteURL string = "/{id}"
+const RouteURL string = "/candidate/{id}"
 const jobLimit int = 200
 
 func Handler(w http.ResponseWriter, r *http.Request) {

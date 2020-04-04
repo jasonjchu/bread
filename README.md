@@ -80,6 +80,24 @@ POST `/candidates/login`
 }
 ```
 
+### Candidate Likes Job (Swipes Right)
+POST `/candidates/jobs/{job_id}/like`
+##### Request Header
+```json
+{
+  user_id: Int
+}
+```
+
+### Candidate Dislikes Job (Swipes Left)
+POST `/candidates/jobs/{job_id}/dislike`
+##### Request Header
+```json
+{
+  user_id: Int
+}
+```
+
 ### Get jobs not seen for candidate by ID
 GET `/candidates/jobs/candidate/{candidate_id}`
 
