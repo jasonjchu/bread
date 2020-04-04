@@ -49,7 +49,7 @@ POST `/employers/register`
 ### Employer Login
 POST `/employers/login`
 ##### Request Body
-```json
+```
 {
     username: String
     password: String
@@ -59,7 +59,7 @@ POST `/employers/login`
 ### Candidate Registration
 POST `/candidates/register`
 ##### Request Body
-```json
+```
 {
     username: String
     password: String
@@ -73,7 +73,7 @@ POST `/candidates/register`
 ### Candidate Login
 POST `/candidates/login`
 ##### Request Body
-```json
+```
 {
     username: String
     password: String
@@ -83,7 +83,7 @@ POST `/candidates/login`
 ### Candidate Likes Job (Swipes Right)
 POST `/candidates/jobs/{job_id}/like`
 ##### Request Header
-```json
+```
 {
   user_id: Int
 }
@@ -92,7 +92,7 @@ POST `/candidates/jobs/{job_id}/like`
 ### Candidate Dislikes Job (Swipes Left)
 POST `/candidates/jobs/{job_id}/dislike`
 ##### Request Header
-```json
+```
 {
   user_id: Int
 }
@@ -101,6 +101,14 @@ POST `/candidates/jobs/{job_id}/dislike`
 ### Get jobs not seen for candidate by ID
 GET `/candidates/jobs/candidate/{candidate_id}`
 
+### Get matches for candidate
+GET `/candidates/matches`
+##### Request Header
+```
+{
+  user_id: Int
+}
+```
 
 ### Get all companies
 GET `/companies{?name=}`
@@ -110,7 +118,7 @@ Can also query by name. Does case-insensitive substring match with DB names.
 ### Get open job postings for employer
 GET `/employers/jobs`
 ##### Request Header
-```json
+```
 {
   user_id: Int
 }
@@ -119,7 +127,7 @@ GET `/employers/jobs`
 ### Get matches for employer
 GET `/employers/matches`
 ##### Request Header
-```json
+```
 {
   user_id: Int
 }
