@@ -32,7 +32,14 @@ GET `/jobs`
 GET `/employers/{employer_id}`
 
 ### Get candidates for employer job by ID
-GET `/employers/candidates-for-job/{job_id}`
+GET `/employers/candidates-for-job`
+```
+{
+    job_id: String
+    candidate_limit: Int
+}
+```
+If `candidate_limit` is invalid or missing the default value will be 200.
 
 ### Employer Registration
 POST `/employers/register`
