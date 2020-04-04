@@ -12,7 +12,7 @@ import (
 const RouteURL string = "/candidate"
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	cid := r.Header.Get("user_id")
+	cid := r.Header.Get("candidate_id")
 	candidateId, err := strconv.Atoi(cid)
 	if err != nil {
 		http.Error(w, err.Error(), 400)

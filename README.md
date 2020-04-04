@@ -102,7 +102,7 @@ POST `/candidates/jobs/{job_id}/dislike`
 GET `/candidates/jobs/candidate
 ```json
 {
-  user_id: Int
+  candidate_id: Int
   job_limit: Int
   tag_ids: Int[]
 }
