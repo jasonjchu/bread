@@ -99,8 +99,15 @@ POST `/candidates/jobs/{job_id}/dislike`
 ```
 
 ### Get jobs not seen for candidate by ID
-GET `/candidates/jobs/candidate/{candidate_id}`
-
+GET `/candidates/jobs/candidate
+```json
+{
+  user_id: Int
+  job_limit: Int
+  tag_ids: Int[]
+}
+```
+If there is no `job_limit` the default will be 200. Likewise, if there is no `tag_ids` then no tag filter will be applied.
 
 ### Get all companies
 GET `/companies{?name=}`
