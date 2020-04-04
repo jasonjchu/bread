@@ -137,6 +137,9 @@ GET `/employers/matches`
 }
 ```
 
+### Get all tags available
+GET `/tags/getJobTags`
+
 ## Running the API Server
 ### Requirements
 1. Go >= 1.13.7
