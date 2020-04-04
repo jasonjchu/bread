@@ -98,6 +98,15 @@ GET `/employers/jobs`
 }
 ```
 
+### Get matches for employer
+GET `/employers/matches`
+##### Request Header
+```json
+{
+  user_id: Int
+}
+```
+
 ## Running the API Server
 ### Requirements
 1. Go >= 1.13.7

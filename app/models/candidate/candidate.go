@@ -10,7 +10,6 @@ import (
 type Id int
 type Name string
 type Program string
-type GradDate time.Time
 type Description string
 type Candidates []*Candidate
 
@@ -18,7 +17,7 @@ type Candidate struct {
 	Id          Id          `db:"_id"`
 	Name        Name        `db:"name"`
 	Program     Program     `db:"program"`
-	GradDate    GradDate    `db:"grad_date"`
+	GradDate    time.Time   `db:"grad_date"`
 	Description Description `db:"description"`
 }
 
