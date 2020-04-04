@@ -12,6 +12,7 @@ import (
 
 
 type EmployerMatches []*EmployerMatch
+type CandidateMatches []*CandidateMatch
 
 // Used by Employers to see candidates who matched with their jobs
 type EmployerMatch struct {
@@ -79,6 +80,40 @@ func GetMatchForEmployer(empId employer.Id) (EmployerMatches, error) {
 	return matches, err
 }
 
+
+func GetMatchForCandidate(canId candidate.Id) (CandidateMatches, error) {
+	const candidateMatchQuery =
+		`SELECT
+			candidates._id  as can_id,
+			jobs._id        as jid,
+			companies._id   as comp_id,
+			companies.name  as comp_name,
+			jobs.job_title,
+			jobs.location
+		FROM jobs,
+			matches,
+			candidates,
+			companies
+		WHERE candidates._id = ?
+			AND matches.uid = candidates._id
+			AND jobs._id = matches.jid
+			AND jobs.company_id = companies._id;`
+
+	pool := db.Pool
+	rows, err := pool.Queryx(candidateMatchQuery, canId)
+	if err != nil {
+		return nil, err
+	}
+
+	matches, err := scanCandidateMatchesFromRows(rows)
+	if err != nil {
+		return nil, err
+	}
+
+	return matches, err
+}
+
+
 func scanEmployerMatchesFromRows(rows *sqlx.Rows) (EmployerMatches, error) {
 	var matches EmployerMatches
 	var err error
@@ -91,5 +126,22 @@ func scanEmployerMatchesFromRows(rows *sqlx.Rows) (EmployerMatches, error) {
 
 		matches = append(matches, &match)
 	}
+	return matches, err
+}
+
+
+func scanCandidateMatchesFromRows(rows *sqlx.Rows) (CandidateMatches, error) {
+	var matches CandidateMatches
+	var err error
+	for rows.Next() {
+		match := CandidateMatch{}
+		err = rows.StructScan(&match)
+		if err != nil {
+			return nil, err
+		}
+
+		matches = append(matches, &match)
+	}
+
 	return matches, err
 }
