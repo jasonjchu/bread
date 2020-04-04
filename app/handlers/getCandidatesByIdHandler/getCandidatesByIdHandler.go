@@ -19,7 +19,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	theCandidate, err := candidate.GetCandidateById(candidate.Id(canId))
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 	w.Write([]byte(utils.ToJson(theCandidate)))
