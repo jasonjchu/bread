@@ -16,14 +16,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		numberOfJobs := 200
 		jobs, err := job.GetJobs(numberOfJobs)
 		if err != nil {
-			http.Error(w, err.Error(), 400)
+			http.Error(w, err.Error(), 500)
 			return
 		}
 		w.Write([]byte(utils.ToJson(jobs)))
 	} else {
 		theJob, err := job.GetJobById(job.Id(id))
 		if err != nil {
-			http.Error(w, err.Error(), 400)
+			http.Error(w, err.Error(), 500)
 			return
 		}
 		w.Write([]byte(utils.ToJson(theJob)))
