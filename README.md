@@ -31,9 +31,6 @@ GET `/jobs{?id=}`
 ### Get employer by ID
 GET `/employers/{employer_id}`
 
-### Get candidates for employer job by ID
-GET `/employers/candidates-for-job/{job_id}`
-
 ### Employer Registration
 POST `/employers/register`
 ##### Request Body
@@ -53,6 +50,47 @@ POST `/employers/login`
 {
     username: String
     password: String
+}
+```
+
+### Get open job postings for employer
+GET `/employers/jobs`
+##### Request Header
+```
+{
+  user_id: Int
+}
+```
+
+### Get candidates for employer job by ID
+GET `/employers/jobs/{job_id}/candidates`
+
+### Employer Likes Candidate for Job (Swipes Right)
+POST `/employers/like`
+##### Request Body
+```
+{
+  job_id: String,
+  candidate_id: Int
+}
+```
+
+### Employer Dislikes Candidate for Job (Swipes Left)
+POST `/employers/dislike`
+##### Request Body
+```
+{
+  job_id: String,
+  candidate_id: Int
+}
+```
+
+### Get matches for employer
+GET `/employers/matches`
+##### Request Header
+```
+{
+  user_id: Int
 }
 ```
 
@@ -82,7 +120,6 @@ POST `/candidates/login`
 
 ### Get Candidate by Id
 GET `/candidates/{id}`
-
 
 ### Candidate Likes Job (Swipes Right)
 POST `/candidates/jobs/{job_id}/like`
