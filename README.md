@@ -138,7 +138,7 @@ GET `/employers/matches`
 ```
 
 ### Get all tags available
-GET `/tags/getJobTags`
+GET `/tags`
 
 ## Running the API Server
 ### Requirements
