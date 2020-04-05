@@ -113,6 +113,12 @@ func GetMatchForCandidate(canId candidate.Id) (CandidateMatches, error) {
 	return matches, err
 }
 
+func InsertMatch(uid candidate.Id, jid job.Id) error {
+	pool := db.Pool
+	insertQuery := `INSERT INTO matches (uid, jid) VALUES (?, ?)`
+	_, err := pool.Exec(insertQuery, uid, jid)
+	return err
+}
 
 func scanEmployerMatchesFromRows(rows *sqlx.Rows) (EmployerMatches, error) {
 	var matches EmployerMatches

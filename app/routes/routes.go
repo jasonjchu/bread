@@ -6,6 +6,8 @@ import (
 	"github.com/jasonjchu/bread/app/handlers/candidateLikesJobHandler"
 	"github.com/jasonjchu/bread/app/handlers/candidateLoginHandler"
 	"github.com/jasonjchu/bread/app/handlers/candidateRegisterHandler"
+	"github.com/jasonjchu/bread/app/handlers/employerDislikesCandidateHandler"
+	"github.com/jasonjchu/bread/app/handlers/employerLikesCandidateHandler"
 	"github.com/jasonjchu/bread/app/handlers/employerLoginHandler"
 	"github.com/jasonjchu/bread/app/handlers/employerRegisterHandler"
 	"github.com/jasonjchu/bread/app/handlers/getCandidateMatchHandler"
@@ -47,6 +49,11 @@ func initEmployerRoutes(r chi.Router) {
 				r.Get(getCandidatesForJobHandler.RouteURL, getCandidatesForJobHandler.Handler)
 			})
 		})
+
+		// LIKE CANDIDATE
+		r.Post(employerLikesCandidateHandler.RouteURL, employerLikesCandidateHandler.Handler)
+		// DISLIKE CANDIDATE
+		r.Post(employerDislikesCandidateHandler.RouteURL, employerDislikesCandidateHandler.Handler)
 
 		r.Get(getEmployerMatchHandler.RouteURL, getEmployerMatchHandler.Handler)
 	})
