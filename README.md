@@ -63,7 +63,7 @@ GET `/employers/jobs`
 ```
 
 ### Get candidates for employer job by ID
-GET `/employers/jobs/{job_id}`
+GET `/employers/jobs/{job_id}/candidates`
 
 ### Get matches for employer
 GET `/employers/matches`
