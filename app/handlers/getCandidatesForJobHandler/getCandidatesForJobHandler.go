@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-const RouteURL string = "/"
+const RouteURL string = "/candidates"
 const candidateLimit int = 200
 
 func Handler(w http.ResponseWriter, r *http.Request) {
