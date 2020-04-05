@@ -63,7 +63,9 @@ GET `/employers/jobs`
 ```
 
 ### Get candidates for employer job by ID
-GET `/employers/jobs/{job_id}/candidates`
+GET `/employers/jobs/{job_id}/candidates{?limit=}`
+
+Can specify a limit for Candidates returned. Default limit is 200.
 
 ### Employer Likes Candidate for Job (Swipes Right)
 POST `/employers/like`
