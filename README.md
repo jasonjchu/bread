@@ -156,6 +156,9 @@ GET `/companies{?name=}`
 
 Can also query by name. Does case-insensitive substring match with DB names.
 
+### Get all tags available
+GET `/tags`
+
 ## Running the API Server
 ### Requirements
 1. Go >= 1.13.7
