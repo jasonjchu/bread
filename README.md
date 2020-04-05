@@ -31,9 +31,6 @@ GET `/jobs{?id=}`
 ### Get employer by ID
 GET `/employers/{employer_id}`
 
-### Get candidates for employer job by ID
-GET `/employers/candidates-for-job/{job_id}`
-
 ### Employer Registration
 POST `/employers/register`
 ##### Request Body
@@ -53,6 +50,27 @@ POST `/employers/login`
 {
     username: String
     password: String
+}
+```
+
+### Get open job postings for employer
+GET `/employers/jobs`
+##### Request Header
+```
+{
+  user_id: Int
+}
+```
+
+### Get candidates for employer job by ID
+GET `/employers/jobs/{job_id}/candidates`
+
+### Get matches for employer
+GET `/employers/matches`
+##### Request Header
+```
+{
+  user_id: Int
 }
 ```
 
@@ -82,7 +100,6 @@ POST `/candidates/login`
 
 ### Get Candidate by Id
 GET `/candidates/{id}`
-
 
 ### Candidate Likes Job (Swipes Right)
 POST `/candidates/jobs/{job_id}/like`
@@ -118,24 +135,6 @@ GET `/candidates/matches`
 GET `/companies{?name=}`
 
 Can also query by name. Does case-insensitive substring match with DB names.
-
-### Get open job postings for employer
-GET `/employers/jobs`
-##### Request Header
-```
-{
-  user_id: Int
-}
-```
-
-### Get matches for employer
-GET `/employers/matches`
-##### Request Header
-```
-{
-  user_id: Int
-}
-```
 
 ## Running the API Server
 ### Requirements

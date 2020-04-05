@@ -37,10 +37,17 @@ func initEmployerRoutes(r chi.Router) {
 		r.Get(getEmployerHandler.RouteURL, getEmployerHandler.Handler)
 		r.Post(employerLoginHandler.RouteURL, employerLoginHandler.Handler)
 		r.Post(employerRegisterHandler.RouteURL, employerRegisterHandler.Handler)
-		r.Route("/candidates-for-job", func(r chi.Router) {
-			r.Get(getCandidatesForJobHandler.RouteURL, getCandidatesForJobHandler.Handler)
+
+		r.Route("/jobs", func(r chi.Router) {
+			// GET JOBS
+			r.Get(getJobsForEmployerHandler.RouteURL, getJobsForEmployerHandler.Handler)
+
+			r.Route("/{job_id}", func(r chi.Router) {
+				// GET CANDIDATES FOR JOB
+				r.Get(getCandidatesForJobHandler.RouteURL, getCandidatesForJobHandler.Handler)
+			})
 		})
-		r.Get(getJobsForEmployerHandler.RouteURL, getJobsForEmployerHandler.Handler)
+
 		r.Get(getEmployerMatchHandler.RouteURL, getEmployerMatchHandler.Handler)
 	})
 }
