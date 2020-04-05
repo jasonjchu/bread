@@ -1,23 +1,17 @@
 package getCandidatesForJobHandler
 
 import (
+	"github.com/go-chi/chi"
 	"github.com/jasonjchu/bread/app/models/candidate"
 	"github.com/jasonjchu/bread/app/utils"
 	"net/http"
-	"strconv"
 )
 
-const RouteURL string = "/candidates-for-job"
+const RouteURL string = "/candidates"
+const candidateLimit int = 200
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	jobId := r.Header.Get("job_id")
-
-	limit := r.Header.Get("candidate_limit")
-	candidateLimit, err := strconv.Atoi(limit)
-	if err != nil {
-		candidateLimit = 200
-	}
-
+	jobId := chi.URLParam(r, "job_id")
 	candidates, err := candidate.GetCandidatesByJidLiked(jobId, candidateLimit)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
@@ -25,4 +19,3 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write([]byte(utils.ToJson(candidates)))
 }
-

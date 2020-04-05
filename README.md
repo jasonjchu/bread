@@ -25,21 +25,11 @@ Tinder-inspired job searching application for employers and prospective employee
 ```
 
 ## API Endpoints
-### Get all jobs
-GET `/jobs`
+### Get all jobs (can also query by id)
+GET `/jobs{?id=}`
 
 ### Get employer by ID
 GET `/employers/{employer_id}`
-
-### Get candidates for employer job by ID
-GET `/employers/candidates-for-job`
-```
-{
-    job_id: String
-    candidate_limit: Int
-}
-```
-If `candidate_limit` is invalid or missing the default value will be 200.
 
 ### Employer Registration
 POST `/employers/register`
@@ -56,17 +46,58 @@ POST `/employers/register`
 ### Employer Login
 POST `/employers/login`
 ##### Request Body
-```json
+```
 {
     username: String
     password: String
 }
 ```
 
+### Get open job postings for employer
+GET `/employers/jobs`
+##### Request Header
+```
+{
+  user_id: Int
+}
+```
+
+### Get candidates for employer job by ID
+GET `/employers/jobs/{job_id}/candidates`
+
+### Employer Likes Candidate for Job (Swipes Right)
+POST `/employers/like`
+##### Request Body
+```
+{
+  job_id: String,
+  candidate_id: Int
+}
+```
+
+### Employer Dislikes Candidate for Job (Swipes Left)
+POST `/employers/dislike`
+##### Request Body
+```
+{
+  job_id: String,
+  candidate_id: Int
+}
+```
+
+### Get matches for employer
+GET `/employers/matches`
+##### Request Header
+```
+{
+  user_id: Int
+}
+```
+
 ### Candidate Registration
 POST `/candidates/register`
 ##### Request Body
-```json
+```
 {
     username: String
     password: String
@@ -80,17 +111,20 @@ POST `/candidates/register`
 ### Candidate Login
 POST `/candidates/login`
 ##### Request Body
-```json
+```
 {
     username: String
     password: String
 }
 ```
 
+### Get Candidate by Id
+GET `/candidates/{id}`
+
 ### Candidate Likes Job (Swipes Right)
 POST `/candidates/jobs/{job_id}/like`
 ##### Request Header
-```json
+```
 {
   user_id: Int
 }
@@ -99,7 +133,7 @@ POST `/candidates/jobs/{job_id}/like`
 ### Candidate Dislikes Job (Swipes Left)
 POST `/candidates/jobs/{job_id}/dislike`
 ##### Request Header
-```json
+```
 {
   user_id: Int
 }
@@ -108,29 +142,19 @@ POST `/candidates/jobs/{job_id}/dislike`
 ### Get jobs not seen for candidate by ID
 GET `/candidates/jobs/candidate/{candidate_id}`
 
+### Get matches for candidate
+GET `/candidates/matches`
+##### Request Header
+```
+{
+  user_id: Int
+}
+```
 
 ### Get all companies
 GET `/companies{?name=}`
 
 Can also query by name. Does case-insensitive substring match with DB names.
-
-### Get open job postings for employer
-GET `/employers/jobs`
-##### Request Header
-```json
-{
-  user_id: Int
-}
-```
-
-### Get matches for employer
-GET `/employers/matches`
-##### Request Header
-```json
-{
-  user_id: Int
-}
-```
 
 ## Running the API Server
 ### Requirements
