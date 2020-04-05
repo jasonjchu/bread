@@ -65,6 +65,26 @@ GET `/employers/jobs`
 ### Get candidates for employer job by ID
 GET `/employers/jobs/{job_id}/candidates`
 
+### Employer Likes Candidate for Job (Swipes Right)
+POST `/employers/like`
+##### Request Body
+```
+{
+  job_id: String,
+  candidate_id: Int
+}
+```
+
+### Employer Dislikes Candidate for Job (Swipes Left)
+POST `/employers/dislike`
+##### Request Body
+```
+{
+  job_id: String,
+  candidate_id: Int
+}
+```
+
 ### Get matches for employer
 GET `/employers/matches`
 ##### Request Header
