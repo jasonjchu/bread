@@ -15,7 +15,7 @@ type Tag struct {
 	Description Description `db:"tag_description"`
 }
 
-type Tags[] Tag
+type Tags[] *Tag
 
 func GetAllJobTags() (Tags, error) {
 	pool := db.Pool
@@ -40,7 +40,7 @@ func scanTagsFromRows(rows *sqlx.Rows) (Tags, error) {
 		if err != nil {
 			return nil, err
 		}
-		tags = append(tags, tag)
+		tags = append(tags, &tag)
 	}
 	return tags, err
 }

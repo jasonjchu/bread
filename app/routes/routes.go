@@ -35,9 +35,7 @@ func initJobRoutes(r chi.Router) {
 }
 
 func initTagRoutes(r chi.Router) {
-	r.Route("/tags", func(r chi.Router) {
-		r.Get(getJobTagsHandler.RouteURL, getJobTagsHandler.Handler)
-	})
+	r.Get(getJobTagsHandler.RouteURL, getJobTagsHandler.Handler)
 }
 
 func initEmployerRoutes(r chi.Router) {
