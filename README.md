@@ -156,24 +156,6 @@ GET `/companies{?name=}`
 
 Can also query by name. Does case-insensitive substring match with DB names.
 
-### Get open job postings for employer
-GET `/employers/jobs`
-##### Request Header
-```
-{
-  user_id: Int
-}
-```
-
-### Get matches for employer
-GET `/employers/matches`
-##### Request Header
-```
-{
-  user_id: Int
-}
-```
-
 ### Get all tags available
 GET `/tags`
 
