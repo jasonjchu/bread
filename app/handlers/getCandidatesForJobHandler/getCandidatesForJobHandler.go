@@ -7,11 +7,11 @@ import (
 	"net/http"
 )
 
-const RouteURL string = "/{id}"
+const RouteURL string = "/"
 const candidateLimit int = 200
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	jobId := chi.URLParam(r, "id")
+	jobId := chi.URLParam(r, "job_id")
 	candidates, err := candidate.GetCandidatesByJidLiked(jobId, candidateLimit)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
@@ -19,4 +19,3 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write([]byte(utils.ToJson(candidates)))
 }
-
