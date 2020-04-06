@@ -9,6 +9,7 @@ import (
 
 type Id string
 type CompanyId int
+type CompanyName string
 type Country string
 type CountryCode string
 type Board string
@@ -27,6 +28,7 @@ type Jobs []*Job
 type Job struct {
 	Id           Id           `db:"_id"`
 	CompanyId    CompanyId    `db:"company_id"`
+	CompanyName  CompanyName  `db:"company_name"`
 	Country      Country      `db:"country"`
 	CountryCode  CountryCode  `db:"country_code"`
 	DateAdded    sql.NullTime `db:"date_added"` // Time is optional, must check if [DateAdded.Valid] before using
@@ -44,7 +46,10 @@ type Job struct {
 
 func GetJobById(id Id) (*Job, error) {
 	pool := db.Pool
-	row := pool.QueryRowx("SELECT * FROM jobs WHERE _id=?", id)
+	row := pool.QueryRowx(`SELECT jobs.*, companies.name as company_name
+                          FROM jobs, companies 
+                          WHERE jobs.company_id = companies._id AND
+                          jobs._id=?`, id)
 
 	job, err := scanJobFromRow(row)
 	if err != nil {
@@ -55,7 +60,10 @@ func GetJobById(id Id) (*Job, error) {
 
 func GetJobs(numberOfJobs int) (Jobs, error) {
 	pool := db.Pool
-	rows, err := pool.Queryx("SELECT * FROM jobs LIMIT ?", numberOfJobs)
+	rows, err := pool.Queryx(`SELECT jobs.*, companies.name as company_name
+                             FROM jobs, companies
+                             WHERE jobs.company_id = companies._id
+                             LIMIT ?`, numberOfJobs)
 	if err != nil {
 		return nil, err
 	}
@@ -67,14 +75,16 @@ func GetJobs(numberOfJobs int) (Jobs, error) {
 	return jobs, nil
 }
 
-func GetJobsByCidNotSeen(cid candidate.Id, numberOfJobs int, tags[] string) (Jobs, error) {
+func GetJobsByCidNotSeen(cid candidate.Id, numberOfJobs int, tags [] string) (Jobs, error) {
 	pool := db.Pool
 	var rows *sqlx.Rows
 	if len(tags) > 0 {
 		// utilise .In() to pass in an array of strings to the query '(?)' to take tags into consideration
-		query, args, err := sqlx.In(`SELECT * FROM jobs WHERE _id NOT IN
+		query, args, err := sqlx.In(`SELECT jobs.*, companies.name as company_name
+            FROM jobs, companies WHERE jobs._id NOT IN
 			(SELECT jid FROM candidateSeenJob WHERE cid = ?)
-			AND EXISTS(SELECT tid FROM tagsDescribeJobs WHERE jid = _id AND tid IN (?))
+			AND EXISTS(SELECT tid FROM tagsDescribeJobs WHERE jid = jobs._id AND tid IN (?))
+            AND jobs.company_id = companies._id
 			LIMIT ?;`, cid, tags, numberOfJobs)
 		if err != nil {
 			return nil, err
@@ -86,8 +96,10 @@ func GetJobsByCidNotSeen(cid candidate.Id, numberOfJobs int, tags[] string) (Job
 		}
 		rows = result
 	} else {
-		result, err := pool.Queryx(`SELECT * FROM jobs WHERE _id NOT IN
-			(SELECT jid FROM candidateSeenJob WHERE cid = ?) LIMIT ?;`, cid, numberOfJobs)
+		result, err := pool.Queryx(`SELECT jobs.*, companies.name as company_name
+            FROM jobs, companies WHERE jobs._id NOT IN
+			(SELECT jid FROM candidateSeenJob WHERE cid = ?) 
+            AND jobs.company_id = companies._id LIMIT ?;`, cid, numberOfJobs)
 		if err != nil {
 			return nil, err
 		}
@@ -103,7 +115,10 @@ func GetJobsByCidNotSeen(cid candidate.Id, numberOfJobs int, tags[] string) (Job
 
 func GetJobsByCompany(companyID CompanyId) (Jobs, error) {
 	pool := db.Pool
-	rows, err := pool.Queryx("SELECT * FROM jobs WHERE company_id = ?", companyID)
+	rows, err := pool.Queryx(`SELECT jobs.*, companies.name as company_name
+                             FROM jobs, companies
+                             WHERE jobs.company_id = companies._id
+                             AND company_id = ?`, companyID)
 	if err != nil {
 		return nil, err
 	}

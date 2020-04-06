@@ -1,3 +1,4 @@
+canid,jid,compid,compname,job_title,location,candname,program,grad_date
 2,3a2adeacbf35985a508f630661eebb43,4,Exxon Mobil,Sales Associate Job in Columbus,"Columbus, IN",Charles,Data Science,2022-05-02
 2,ac2da666b68583ed3c3cc4eaee869eb1,4,Exxon Mobil,Project Manager ( Z ) Job in Houston,"Houston, TX 77034",Charles,Data Science,2022-05-02
 5,ac2da666b68583ed3c3cc4eaee869eb1,4,Exxon Mobil,Project Manager ( Z ) Job in Houston,"Houston, TX 77034",Jack,Data Science,2022-05-05
