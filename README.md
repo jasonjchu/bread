@@ -146,7 +146,7 @@ GET `/candidates/jobs{?limit=&tag_ids=}`
 ##### Request Header
 ```
 {
-  candidate_id: Int
+  user_id: Int
 }
 ```
 Can specify a limit for number of jobs returned and tag_ids array is used to filter jobs. Limit has a default value of 200, and no including tags will not apply tag filter.
