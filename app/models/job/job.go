@@ -72,10 +72,10 @@ func GetJobsByCidNotSeen(cid candidate.Id, numberOfJobs int, tags[] string) (Job
 	var rows *sqlx.Rows
 	if len(tags) > 0 {
 		// utilise .In() to pass in an array of strings to the query '(?)' to take tags into consideration
-		query, args, err := sqlx.In("SELECT * FROM jobs WHERE _id NOT IN "+
-			"(SELECT jid FROM candidateSeenJob WHERE cid = ?) "+
-			"AND EXISTS(SELECT tid FROM tagsDescribeJobs WHERE jid = _id AND tid IN (?)) "+
-			"LIMIT ?;", cid, tags, numberOfJobs)
+		query, args, err := sqlx.In(`SELECT * FROM jobs WHERE _id NOT IN
+			(SELECT jid FROM candidateSeenJob WHERE cid = ?)
+			AND EXISTS(SELECT tid FROM tagsDescribeJobs WHERE jid = _id AND tid IN (?))
+			LIMIT ?;`, cid, tags, numberOfJobs)
 		if err != nil {
 			return nil, err
 		}
@@ -86,8 +86,8 @@ func GetJobsByCidNotSeen(cid candidate.Id, numberOfJobs int, tags[] string) (Job
 		}
 		rows = result
 	} else {
-		result, err := pool.Queryx("SELECT * FROM jobs WHERE _id NOT IN "+
-			"(SELECT jid FROM candidateSeenJob WHERE cid = ?) LIMIT ?;", cid, numberOfJobs)
+		result, err := pool.Queryx(`SELECT * FROM jobs WHERE _id NOT IN
+			(SELECT jid FROM candidateSeenJob WHERE cid = ?) LIMIT ?;`, cid, numberOfJobs)
 		if err != nil {
 			return nil, err
 		}

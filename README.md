@@ -142,15 +142,14 @@ POST `/candidates/jobs/{job_id}/dislike`
 ```
 
 ### Get jobs not seen for candidate by ID
-GET `/candidates/jobs/candidate
+GET `/candidates/jobs/candidate{?limit=&tag_ids=}
+##### Request Header
 ```
 {
   candidate_id: Int
-  job_limit: Int
-  tag_ids: Int[]
 }
 ```
-If there is no `job_limit` the default will be 200. Likewise, if there is no `tag_ids` then no tag filter will be applied.
+Can specify a limit for number of jobs returned and tag_ids array is used to filter jobs. Limit has a default value of 200, and no including tags will not apply tag filter.
 
 ### Get matches for candidate
 GET `/candidates/matches`

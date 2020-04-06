@@ -6,7 +6,6 @@ import (
 	"github.com/jasonjchu/bread/app/utils"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 const RouteURL string = "/candidate"
@@ -18,15 +17,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 400)
 	}
 
-	tid := r.Header.Get("tag_ids")
-	var tags []string
-	// need to remove the brackets given an array
-	if len(tid) > 2 {
-		tags = strings.Split(tid[1:len(tid)-1], ",")
-	}
+	r.ParseForm()
+	tags := r.Form["tag_ids"]
 
 	// retrieve the limit if present ow default to 200
-	limit := r.Header.Get("job_limit")
+	limit := r.URL.Query().Get("limit")
 	jobLimit, err := strconv.Atoi(limit)
 	if err != nil {
 		jobLimit = 200
