@@ -3,6 +3,7 @@ package job
 import (
 	"database/sql"
 	"github.com/jasonjchu/bread/app/db"
+	"github.com/jasonjchu/bread/app/models/candidate"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -66,12 +67,31 @@ func GetJobs(numberOfJobs int) (Jobs, error) {
 	return jobs, nil
 }
 
-func GetJobsByCidNotSeen(cid string, numberOfJobs int) (Jobs, error) {
+func GetJobsByCidNotSeen(cid candidate.Id, numberOfJobs int, tags[] string) (Jobs, error) {
 	pool := db.Pool
-	rows, err := pool.Queryx("SELECT * FROM jobs WHERE _id NOT IN "+
-		"(SELECT jid FROM candidateSeenJob WHERE cid = ?) LIMIT ?;", cid, numberOfJobs)
-	if err != nil {
-		return nil, err
+	var rows *sqlx.Rows
+	if len(tags) > 0 {
+		// utilise .In() to pass in an array of strings to the query '(?)' to take tags into consideration
+		query, args, err := sqlx.In(`SELECT * FROM jobs WHERE _id NOT IN
+			(SELECT jid FROM candidateSeenJob WHERE cid = ?)
+			AND EXISTS(SELECT tid FROM tagsDescribeJobs WHERE jid = _id AND tid IN (?))
+			LIMIT ?;`, cid, tags, numberOfJobs)
+		if err != nil {
+			return nil, err
+		}
+		query = pool.Rebind(query)
+		result, err := pool.Queryx(query, args...)
+		if err != nil {
+			return nil, err
+		}
+		rows = result
+	} else {
+		result, err := pool.Queryx(`SELECT * FROM jobs WHERE _id NOT IN
+			(SELECT jid FROM candidateSeenJob WHERE cid = ?) LIMIT ?;`, cid, numberOfJobs)
+		if err != nil {
+			return nil, err
+		}
+		rows = result
 	}
 
 	jobs, err := scanJobsFromRows(rows)

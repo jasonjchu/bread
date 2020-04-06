@@ -1,0 +1,1 @@
+SELECT * FROM jobs WHERE _id NOT IN (SELECT jid FROM candidateSeenJob WHERE cid = 4) AND EXISTS(SELECT tid FROM tagsDescribeJobs WHERE jid = _id AND tid IN (1,2,3)) LIMIT 20;
