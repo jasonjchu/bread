@@ -15,6 +15,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	candidateId, err := strconv.Atoi(cid)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
+		return
 	}
 
 	r.ParseForm()
