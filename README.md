@@ -142,7 +142,7 @@ POST `/candidates/jobs/{job_id}/dislike`
 ```
 
 ### Get jobs not seen for candidate by ID
-GET `/candidates/jobs/candidate{?limit=&tag_ids=}
+GET `/candidates/jobs{?limit=&tag_ids=}
 ##### Request Header
 ```
 {

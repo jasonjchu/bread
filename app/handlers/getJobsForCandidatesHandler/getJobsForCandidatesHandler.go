@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-const RouteURL string = "/candidate"
+const RouteURL string = "/"
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	cid := r.Header.Get("candidate_id")
