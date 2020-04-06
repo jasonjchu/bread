@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-const RouteURL string = "/jobs"
+const RouteURL string = "/"
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.Header.Get("user_id"))

@@ -6,6 +6,8 @@ import (
 	"github.com/jasonjchu/bread/app/handlers/candidateLikesJobHandler"
 	"github.com/jasonjchu/bread/app/handlers/candidateLoginHandler"
 	"github.com/jasonjchu/bread/app/handlers/candidateRegisterHandler"
+	"github.com/jasonjchu/bread/app/handlers/employerDislikesCandidateHandler"
+	"github.com/jasonjchu/bread/app/handlers/employerLikesCandidateHandler"
 	"github.com/jasonjchu/bread/app/handlers/employerLoginHandler"
 	"github.com/jasonjchu/bread/app/handlers/employerRegisterHandler"
 	"github.com/jasonjchu/bread/app/handlers/getCandidateMatchHandler"
@@ -14,6 +16,7 @@ import (
 	"github.com/jasonjchu/bread/app/handlers/getCompaniesHandler"
 	"github.com/jasonjchu/bread/app/handlers/getEmployerHandler"
 	"github.com/jasonjchu/bread/app/handlers/getEmployerMatchHandler"
+	"github.com/jasonjchu/bread/app/handlers/getJobTagsHandler"
 	"github.com/jasonjchu/bread/app/handlers/getJobsForCandidatesHandler"
 	"github.com/jasonjchu/bread/app/handlers/getJobsForEmployerHandler"
 	"github.com/jasonjchu/bread/app/handlers/getJobsHandler"
@@ -21,6 +24,7 @@ import (
 
 func InitRoutes(r chi.Router) {
 	initJobRoutes(r)
+	initTagRoutes(r)
 	initEmployerRoutes(r)
 	initCandidateRoutes(r)
 	initCompanyRoutes(r)
@@ -32,15 +36,31 @@ func initJobRoutes(r chi.Router) {
 	})
 }
 
+func initTagRoutes(r chi.Router) {
+	r.Get(getJobTagsHandler.RouteURL, getJobTagsHandler.Handler)
+}
+
 func initEmployerRoutes(r chi.Router) {
 	r.Route("/employers", func(r chi.Router) {
 		r.Get(getEmployerHandler.RouteURL, getEmployerHandler.Handler)
 		r.Post(employerLoginHandler.RouteURL, employerLoginHandler.Handler)
 		r.Post(employerRegisterHandler.RouteURL, employerRegisterHandler.Handler)
-		r.Route("/candidates-for-job", func(r chi.Router) {
-			r.Get(getCandidatesForJobHandler.RouteURL, getCandidatesForJobHandler.Handler)
+
+		r.Route("/jobs", func(r chi.Router) {
+			// GET JOBS
+			r.Get(getJobsForEmployerHandler.RouteURL, getJobsForEmployerHandler.Handler)
+
+			r.Route("/{job_id}", func(r chi.Router) {
+				// GET CANDIDATES FOR JOB
+				r.Get(getCandidatesForJobHandler.RouteURL, getCandidatesForJobHandler.Handler)
+			})
 		})
-		r.Get(getJobsForEmployerHandler.RouteURL, getJobsForEmployerHandler.Handler)
+
+		// LIKE CANDIDATE
+		r.Post(employerLikesCandidateHandler.RouteURL, employerLikesCandidateHandler.Handler)
+		// DISLIKE CANDIDATE
+		r.Post(employerDislikesCandidateHandler.RouteURL, employerDislikesCandidateHandler.Handler)
+
 		r.Get(getEmployerMatchHandler.RouteURL, getEmployerMatchHandler.Handler)
 	})
 }

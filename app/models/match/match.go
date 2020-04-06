@@ -10,42 +10,38 @@ import (
 	"time"
 )
 
-
 type EmployerMatches []*EmployerMatch
 type CandidateMatches []*CandidateMatch
 
 // Used by Employers to see candidates who matched with their jobs
 type EmployerMatch struct {
-	CandidateId       candidate.Id       `db:"can_id"`
-	JobId             job.Id             `db:"jid"`
+	CandidateId candidate.Id `db:"can_id"`
+	JobId       job.Id       `db:"jid"`
 	// include some basic job & company info
-	CompanyId         job.CompanyId      `db:"comp_id"`
-	CompanyName       company.Name       `db:"comp_name"`
-	JobTitle          job.Title          `db:"job_title"`
-	JobLocation       job.Location       `db:"location"`
+	CompanyId   job.CompanyId `db:"comp_id"`
+	CompanyName company.Name  `db:"comp_name"`
+	JobTitle    job.Title     `db:"job_title"`
+	JobLocation job.Location  `db:"location"`
 	// include some basic candidate profile info
-	CandidateName     candidate.Name     `db:"cand_name"`
-	CandidateProgram  candidate.Program  `db:"program"`
-	CandidateGradDate time.Time          `db:"grad_date"`
+	CandidateName     candidate.Name    `db:"cand_name"`
+	CandidateProgram  candidate.Program `db:"program"`
+	CandidateGradDate time.Time         `db:"grad_date"`
 }
-
 
 // Same as employer match, minus candidate profile info
 // Used by Candidates to see jobs they matched to
 type CandidateMatch struct {
-	CandidateId       candidate.Id       `db:"can_id"`
-	JobId             job.Id             `db:"jid"`
+	CandidateId candidate.Id `db:"can_id"`
+	JobId       job.Id       `db:"jid"`
 	// include some basic job & company info
-	CompanyId         job.CompanyId      `db:"comp_id"`
-	CompanyName       company.Name       `db:"comp_name"`
-	JobTitle          job.Title          `db:"job_title"`
-	JobLocation       job.Location       `db:"location"`
+	CompanyId   job.CompanyId `db:"comp_id"`
+	CompanyName company.Name  `db:"comp_name"`
+	JobTitle    job.Title     `db:"job_title"`
+	JobLocation job.Location  `db:"location"`
 }
 
-
 func GetMatchForEmployer(empId employer.Id) (EmployerMatches, error) {
-	const employerMatchQuery =
-		`SELECT 
+	const employerMatchQuery = `SELECT 
            candidates._id  as can_id,
 		   jobs._id        as jid,
 		   companies._id   as comp_id,
@@ -80,10 +76,8 @@ func GetMatchForEmployer(empId employer.Id) (EmployerMatches, error) {
 	return matches, err
 }
 
-
 func GetMatchForCandidate(canId candidate.Id) (CandidateMatches, error) {
-	const candidateMatchQuery =
-		`SELECT
+	const candidateMatchQuery = `SELECT
 			candidates._id  as can_id,
 			jobs._id        as jid,
 			companies._id   as comp_id,
@@ -113,6 +107,12 @@ func GetMatchForCandidate(canId candidate.Id) (CandidateMatches, error) {
 	return matches, err
 }
 
+func InsertMatch(uid candidate.Id, jid job.Id) error {
+	pool := db.Pool
+	insertQuery := `INSERT INTO matches (uid, jid) VALUES (?, ?)`
+	_, err := pool.Exec(insertQuery, uid, jid)
+	return err
+}
 
 func scanEmployerMatchesFromRows(rows *sqlx.Rows) (EmployerMatches, error) {
 	var matches EmployerMatches
@@ -128,7 +128,6 @@ func scanEmployerMatchesFromRows(rows *sqlx.Rows) (EmployerMatches, error) {
 	}
 	return matches, err
 }
-
 
 func scanCandidateMatchesFromRows(rows *sqlx.Rows) (CandidateMatches, error) {
 	var matches CandidateMatches
