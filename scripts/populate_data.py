@@ -10,6 +10,7 @@ from import_matches_data import populate_matches_data
 from import_job_tags_data import populate_jobTags_data
 from import_tags_describe_jobs_data import populate_tagsDescribeJobs_data
 from create_job_indices import build_job_indices
+from create_matches_indices import build_matches_indices
 
 if __name__ == '__main__':
     drop_db()
@@ -37,4 +38,5 @@ if __name__ == '__main__':
     print("Successfully populated all data!")
     print("Building indices")
     build_job_indices()
+    build_matches_indices()
     print("Successfully built indices on jobs!")
