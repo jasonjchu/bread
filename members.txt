@@ -6,6 +6,9 @@ Members & Contributions
     - Generated candidateSeenJob and jobSeenCandidate test data for testing database.
     - Populated candidateSeenJob and jobSeenCandidate table with Python script.
     - Added candidateSeenJob and jobSeenCandidate sample query with expected output.
+    - Write .sql and .out files for seen jobs by candidate and seen candidates for jobs.
+    - Wrote query for fetching tags data and wrote query for jobs based on the specific tags chosen.
+    - Wrote query to fetch unseen jobs by a candidate.
 
 - Jason Chu (@jasonjchu)
     - Set up basic android app
@@ -15,6 +18,12 @@ Members & Contributions
     - Generated candidates and accounts test data for testing database.
     - Populated candidates and accounts table with Python script.
     - Created login activity with basic UI on the Android app.
+    - Added employer dashboard with candidate cards.
+    - Added candidate dashboard with active job posting cards.
+    - Added candidate and employer swiping feature.
+    - Connect registration to dashboard views.
+    - Fetched jobs based on tags in the filter by tag view.
+    - Fixed bugs and polished final Android product.
 
 - Kallen Tu (@kallentu)
     - Wrote `report.pdf` for Milestone 0.
@@ -26,6 +35,8 @@ Members & Contributions
     - Updated `members.txt` for Milestone 1 with README directory documentation.
     - Added test data for matches.
     - Added employer login API route.
+    - Implemented employer swipe right/left (like/dislike).
+    - Finalized Android UI, general overhaul and polishing.
 
 - Charles Zhang (@gzcharleszhang)
     - Set up basic backend app
@@ -39,6 +50,11 @@ Members & Contributions
     - Added candidate register and login API route.
     - Generated production .sql and .out files for employers query.
     - Duplicated data files for production, modifying existing scripts to populate production data.
+    - Implemented candidate swipe right/left (like/dislike).
+    - Create company_id index on jobs.
+    - Wrote query to fetch list of jobs by employer id.
+    - Updated README for describing feature locations, adding endpoints.
+    - Updated final report.
 
 - Jack Zhang (@Novacer)
     - Created import_job_data script to populate test data and database tables.
@@ -50,3 +66,6 @@ Members & Contributions
     - Added employer register API route.
     - Added jobs tag data and fixed unstable tag assignment.
     - Updated `report.pdf` for Milestone 2 to include optimizations, schema changes, and implemented features.
+    - Wrote query to fetch matches for employer, including job data.
+    - Wrote query to fetch matches for candidate, including job data.
+    - Edited and finalized video demo.
