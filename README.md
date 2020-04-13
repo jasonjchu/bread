@@ -28,8 +28,12 @@ Tinder-inspired job searching application for employers and prospective employee
 ### Get all jobs (can also query by id)
 GET `/jobs{?id=}`
 
+Related file: `app/handlers/getJobsHandler`
+
 ### Get employer by ID
 GET `/employers/{employer_id}`
+
+Related file: `app/handlers/getEmployerHandler`
 
 ### Employer Registration
 POST `/employers/register`
@@ -43,6 +47,8 @@ POST `/employers/register`
 }
 ```
 
+Related file: `app/services/employerRegisterService`
+
 ### Employer Login
 POST `/employers/login`
 ##### Request Body
@@ -53,6 +59,8 @@ POST `/employers/login`
 }
 ```
 
+Related file: `app/services/employerLoginService`
+
 ### Get open job postings for employer
 GET `/employers/jobs`
 ##### Request Header
@@ -62,10 +70,14 @@ GET `/employers/jobs`
 }
 ```
 
+Related file: `app/services/employerJobsService`
+
 ### Get candidates for employer job by ID
 GET `/employers/jobs/{job_id}/candidates{?limit=}`
 
 Can specify a limit for Candidates returned. Default limit is 200.
+
+Related file: `app/handlers/getCandidatesForJobHandler`
 
 ### Employer Likes Candidate for Job (Swipes Right)
 POST `/employers/like`
@@ -77,6 +89,8 @@ POST `/employers/like`
 }
 ```
 
+Related file: `app/services/employerLikesCandidateService`
+
 ### Employer Dislikes Candidate for Job (Swipes Left)
 POST `/employers/dislike`
 ##### Request Body
@@ -87,6 +101,8 @@ POST `/employers/dislike`
 }
 ```
 
+Related file: `app/services/employerDislikesCandidateService`
+
 ### Get matches for employer
 GET `/employers/matches`
 ##### Request Header
@@ -95,6 +111,8 @@ GET `/employers/matches`
   user_id: Int
 }
 ```
+
+Related file: `app/services/employerMatchesService`
 
 ### Candidate Registration
 POST `/candidates/register`
@@ -110,6 +128,8 @@ POST `/candidates/register`
 }
 ```
 
+Related file: `app/services/candidateRegisterService`
+
 ### Candidate Login
 POST `/candidates/login`
 ##### Request Body
@@ -120,8 +140,12 @@ POST `/candidates/login`
 }
 ```
 
+Related file: `app/services/candidateLoginService`
+
 ### Get Candidate by Id
 GET `/candidates/{id}`
+
+Related file: `app/handlers/getCandidatesByIdHandler`
 
 ### Candidate Likes Job (Swipes Right)
 POST `/candidates/jobs/{job_id}/like`
@@ -132,6 +156,8 @@ POST `/candidates/jobs/{job_id}/like`
 }
 ```
 
+Related file: `app/services/candidateLikesJobService`
+
 ### Candidate Dislikes Job (Swipes Left)
 POST `/candidates/jobs/{job_id}/dislike`
 ##### Request Header
@@ -140,6 +166,8 @@ POST `/candidates/jobs/{job_id}/dislike`
   user_id: Int
 }
 ```
+
+Related file: `app/services/candidateDislikesJobService`
 
 ### Get jobs not seen for candidate by ID
 GET `/candidates/jobs{?limit=&tag_ids=}`
@@ -151,6 +179,8 @@ GET `/candidates/jobs{?limit=&tag_ids=}`
 ```
 Can specify a limit for number of jobs returned and tag_ids array is used to filter jobs. Limit has a default value of 200, and no including tags will not apply tag filter.
 
+Related file: `app/handlers/getJobsForCandidatesHandler`
+
 ### Get matches for candidate
 GET `/candidates/matches`
 ##### Request Header
@@ -160,13 +190,19 @@ GET `/candidates/matches`
 }
 ```
 
+Related file: `app/services/candidatesMatchesService`
+
 ### Get all companies
 GET `/companies{?name=}`
 
 Can also query by name. Does case-insensitive substring match with DB names.
 
+Related file: `app/handlers/getCompaniesHandler`
+
 ### Get all tags available
 GET `/tags`
+
+Related file: `app/handlers/getJobTagsHandler`
 
 ## Running the API Server
 ### Requirements
